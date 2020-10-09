@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <div class="absolute inset-0 flex justify-center items-center bg-gray-100">
+    <div class="flex flex-col items-center p-16 bg-white shadow-lg rounded-lg">
+      {{ $hugo := resources.Get "img/hugo.svg" }}
+      {{ $tailwind := resources.Get "img/tailwind.svg" }}
+      <img class="w-48 mb-12" src="{{ $hugo.Permalink }}" alt="">
+      <h1 class="mb-12 text-5xl text-red-600">♥️</h1>
+      <img class="w-48" src="{{ $tailwind.Permalink }}" alt="">
+    </div>
+  </div>
+{{ end }}

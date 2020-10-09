@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ .Title }}</title>
+
+    <!-- Purge CSS (or don't!) depending on Hugo environment -->
+    {{ if .Site.IsServer }}
+      {{ $style := resources.Get "css/main.css" | resources.PostCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
+      <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+    {{ else }}
+      {{ $style := resources.Get "css/main.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
+      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
+    {{ end }}
+
+    {{ .Hugo.Generator }}
+
+  </head>
+  <body>
+    {{ block "main" . }}{{ end }}
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "hugo-tailwind-boilerplate",
+  "version": "1.0.0",
+  "description": "a barebones boilerplate for Hugo with support for TailwindCSS",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sparkpunk/hugo-tailwind-boilerplate.git"
+  },
+  "keywords": [
+    "hugo",
+    "tailwind",
+    "boilerplate"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@fullhuman/postcss-purgecss": "^3.0.0",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8.1.1",
+    "postcss-cli": "^8.1.0",
+    "postcss-import": "^12.0.1",
+    "purgecss": "^3.0.0",
+    "tailwindcss": "^1.8.12"
+  }
+}
