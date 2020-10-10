@@ -1,5 +1,3 @@
-![Hugo ♥️ Tailwind](hugotailwind.png)
-
 # Huey Color Palette Generator
 
 Consistent color palettes from a single color input.
