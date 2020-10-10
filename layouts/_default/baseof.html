@@ -1,21 +1,59 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ .Title }}</title>
+<html lang="{{ .Site.LanguageCode }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Purge CSS (or don't!) depending on Hugo environment -->
-    {{ if .Site.IsServer }}
-      {{ $style := resources.Get "css/main.css" | resources.PostCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
-      <link rel="stylesheet" href="{{ $style.RelPermalink }}">
-    {{ else }}
-      {{ $style := resources.Get "css/main.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
-      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
-    {{ end }}
+  {{- if eq .Kind "page" }}
+    <meta name="description" content="{{ .Summary }}">
+    <meta name="author" content="{{ .Params.author | default .Site.Params.author }}">
+  {{ else }}
+    <meta name="description" content="{{ .Site.Params.description }}">
+    <meta name="author" content="{{ .Site.Params.author }}">
+  {{ end -}}
 
-    {{ .Hugo.Generator }}
+  <!-- Title -->
+  <title>
+    {{- if not .IsHome }}
+    {{- if eq .Kind "page" }}{{ .Title }}
+    {{- else if eq .Data.Singular "tag" }}{{ .Data.Term }}
+    {{- else }}Posts
+    {{- end }} - {{ end }}
+    {{- .Site.Title -}}
+  </title>
+  
+  <!-- Purge CSS (or don't!) depending on Hugo environment -->
+  {{ if .Site.IsServer }}
+    <!-- Styles -->
+    {{ $style := resources.Get "css/main.css" | resources.PostCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
-  </head>
-  <body>
-    {{ block "main" . }}{{ end }}
-  </body>
+  {{ else }}
+    
+    <!-- Styles -->
+    {{ $style := resources.Get "css/main.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
+    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
+
+    <!-- Toasted Analytics -->
+    <script type="text/javascript">
+      window._ALPINA_ID="b2273c03-1e3a-416c-94ae-e273ad37655a";
+      (function() {
+        d=document;s=d.createElement("script");
+        s.src="https://x.alpina.io/wa.js";
+        s.async=1;
+        d.getElementsByTagName("head")[0].appendChild(s);
+      })();
+    </script>
+
+  {{ end }}
+  
+  {{ .Hugo.Generator }}
+  
+</head>
+<body>
+  {{ block "main" . }}{{ end }}
+  
+  {{ partial "scripts.html" . }}
+</body>
 </html>

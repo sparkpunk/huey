@@ -1,11 +1,66 @@
 {{ define "main" }}
-  <div class="absolute inset-0 flex justify-center items-center bg-gray-100">
-    <div class="flex flex-col items-center p-16 bg-white shadow-lg rounded-lg">
-      {{ $hugo := resources.Get "img/hugo.svg" }}
-      {{ $tailwind := resources.Get "img/tailwind.svg" }}
-      <img class="w-48 mb-12" src="{{ $hugo.Permalink }}" alt="">
-      <h1 class="mb-12 text-5xl text-red-600">♥️</h1>
-      <img class="w-48" src="{{ $tailwind.Permalink }}" alt="">
+  <form onsubmit="return false" class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-10 text-gray-800 border-r border-gray-200">
+    <div class="mb-12">
+      <div class="flex">
+        <div id="box1" class="w-4 h-4 mr-2"></div>
+        <div id="box2" class="w-4 h-4 mr-2"></div>
+        <div id="box3" class="w-4 h-4 mr-2"></div>
+      </div>
+      <h1 class="my-4 text-3xl font-extrabold">Huey</h1>
+      <p class="text-sm font-light">Consistent color palettes<br /> from a single color input.</p>
+    </div>
+    <div class="flex flex-col mb-6">
+      <label for="hex-input" class="mb-2 ml-px text-xs uppercase font-semibold">Starting color</label>
+      <input id="hex-input" type="text" class="appearance-none py-2 pr-4 pl-4 text-gray-600 bg-white border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
+    </div>
+    <div class="flex flex-col mb-6">
+      <label for="hue-input" class="mb-2 ml-px text-xs uppercase font-semibold">Total hues</label>
+      <input id="hue-input" type="number" placeholder="" class="appearance-none py-2 pr-4 pl-4 text-gray-600 bg-white border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
+    </div>
+    <div class="flex flex-col mb-6">
+      <label for="mono-input" class="mb-2 ml-px text-xs uppercase font-semibold">Tints & shades</label>
+      <input id="mono-input" type="number" placeholder="" class="appearance-none py-2 pr-4 pl-4 text-gray-600 bg-white border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
+    </div>
+    <div class="flex flex-col">
+      <p for="scale-by" class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</p>
+      <div class="flex items-center h-6 mb-2">
+        <input class="mr-2" type="radio" name="scale-by" id="intensity" value="intensity">
+        <label for="intensity" class="text-xs text-gray-600">Intensity</label>
+      </div>
+      <div class="flex items-center h-6 mb-2">
+        <input class="mr-2" type="radio" class="text-sm" name="scale-by" id="lightness" value="lightness">
+        <label for="lightness" class="text-xs text-gray-600">Lightness</label>
+      </div>
+      <div class="flex items-center h-6 mb-2">
+        <input class="mr-2" type="radio" name="scale-by" id="lumi" value="lumi">
+        <label for="lumi" class="text-xs text-gray-600">Luminosity</label>
+      </div>
+    </div>
+    <button type="submit" id="generate-palette" onclick="makePalettes()" class="appearance-none flex-shrink-0 w-full mt-6 py-2 pr-4 pl-4 transition-colors duration-100 ease-in-out leading-normal rounded-lg select-none truncate bg-gray-500">
+      <span class="text-white font-semibold">Generate</span>
+    </button>
+  </form>
+
+  <div class="relative w-auto h-screen overflow-scroll ml-64 p-8">
+    <div class="flex items-center mb-8">
+      <button onclick="getCSS()" class="appearance-none flex-shrink-0 mr-2 py-2 px-4 text-sm font-semibold leading-normal text-gray-600 bg-gray-300 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+        CSS
+      </button>
+      <button onclick="getSCSS()" class="appearance-none flex-shrink-0 mr-2 py-2 px-4 text-sm font-semibold leading-normal text-gray-600 bg-gray-300 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+        SCSS
+      </button>
+      <button onclick="getJSON()" class="appearance-none flex-shrink-0 mr-2 py-2 px-4 text-sm font-semibold leading-normal text-gray-600 bg-gray-300 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+        JSON
+      </button>
+    </div>
+    <div id="palette" class="w-auto h-full grid row-gap-4">
+      <div class="flex flex-col-reverse w-16 h-20 mr-2 p-2 rounded-sm shadow-lg" style="background-color: #008eda;">
+        <input class="mt-2 text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none" value="#008eda"></input>
+      </div>
     </div>
   </div>
+  <script type="text/javascript" src="./src/scripts/chroma.js"></script>
+  <script type="text/javascript" src="./src/scripts/color.js"></script>
+  <script type="text/javascript" src="./src/scripts/scales.js"></script>
+  <script type="text/javascript" src="./src/scripts/main.js"></script>
 {{ end }}

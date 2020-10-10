@@ -1,7 +1,7 @@
 {
-  "name": "hugo-tailwind-boilerplate",
+  "name": "huey",
   "version": "1.0.0",
-  "description": "a barebones boilerplate for Hugo with support for TailwindCSS",
+  "description": "consistent color palettes from a single color input",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/sparkpunk/hugo-tailwind-boilerplate.git"
