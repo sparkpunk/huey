@@ -49,8 +49,11 @@ function grabValues() {
   mono = mono_input.value;
   scale = Object.values(scale_by).filter(i => i.checked)[0].value;
 
+  if(hex == undefined || hue == undefined || mono == undefined || scale == undefined) return;
+
   makePalettes(hex, hue, mono, scale);
 }
+
 function makePalettes(hex, hue, mono, scale) {
   
   var color_wheel = defineColorWheel(hue, hex);

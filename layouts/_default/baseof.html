@@ -23,6 +23,12 @@
     {{- .Site.Title -}}
   </title>
 
+  <!-- Favicons -->
+  {{ $icon := resources.Get "img/favicon.ico" }}
+  {{ $apple_icon := resources.Get "img/apple-icon.png" }}
+  <link rel="icon" href="{{ $icon.RelPermalink }}">
+  <link rel="apple-touch-icon" href="{{ $apple_icon.RelPermalink }}">
+
   <!-- Preconnect -->
   <link rel="preconnect" href="https://use.typekit.net">
   <link rel="stylesheet" href="https://use.typekit.net/pys3ntr.css">
