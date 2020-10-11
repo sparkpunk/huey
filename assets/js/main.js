@@ -61,13 +61,14 @@ function makePalettes(hex, hue, mono, scale) {
 
   // Clear the palette container
   palette_container.innerHTML = "";
-  palette_container.classList += ` grid grid-rows-${color_scales.length} row-gap-1 pb-8`
+  palette_container.classList = "";
+  palette_container.classList = `flex-grow w-full h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
   
   color_scales.forEach((color_scale, s) => {
     
     var row = document.createElement('div');
 
-    row.classList += ` grid grid-cols-${color_scale.length} col-gap-1`
+    row.classList += ` grid grid-cols-${color_scale.length} col-gap-2`
     huepoint = Object.values(color_scales[0]).indexOf(`#${hex}`);
     
     color_scale.forEach((color, c) => {
