@@ -1,3 +1,12 @@
+// ==================================================
+// STAGING
+// ==================================================
+var hex, hue, mono, scale; 
+var randomColor = chroma.random().set('hsl.l', 0.9).set('hsl.s', 0.5);
+
+// ==================================================
+// DOM ELEMENTS
+// ==================================================
 var palette_container = document.getElementById('palette');
 
 var color_input = document.getElementById('hex-input');
@@ -8,34 +17,54 @@ var mono_input = document.getElementById('mono-input');
 var box1 = document.getElementById('box1');
 var box2 = document.getElementById('box2');
 var box3 = document.getElementById('box3');
-var boxes = [ box1, box2, box3 ];
 
-var randomColor = chroma.random().set('hsl.l', 0.9).set('hsl.s', 0.5);
+// ==================================================
+// READY
+// ==================================================
+function ready() {
+  var boxes = [ box1, box2, box3 ];
+  
+  boxes.forEach((box, b) => {
+    if(b > 0) randomColor = chroma(randomColor).darken(1).saturate(2);
+    box.style.backgroundColor = randomColor.hex();
+  });
 
-boxes.forEach((box, b) => {
-  if(b > 0) randomColor = randomColor.darken(1).saturate(2);
-  box.style.backgroundColor = randomColor;
-})
+  hex = randomColor.hex();
+  hue = 8;
+  mono = 8;
+  scale = 'intensity';
 
-function makePalettes() {
+  makePalettes(hex, hue, mono, scale);
+
+}
+
+// ==================================================
+// FUNCTIONS
+// ==================================================
+function grabValues() {
+
   // Grab all of the values
-  var hex = chroma(color_input.value).hex();
-  var hue = hue_input.value;
-  var mono = mono_input.value;
-  var scale = Object.values(scale_by).filter(i => i.checked)[0].value;
+  hex = chroma(color_input.value).hex();
+  hue = hue_input.value;
+  mono = mono_input.value;
+  scale = Object.values(scale_by).filter(i => i.checked)[0].value;
+
+  makePalettes(hex, hue, mono, scale);
+}
+function makePalettes(hex, hue, mono, scale) {
   
   var color_wheel = defineColorWheel(hue, hex);
   var color_scales = makeColorScales(color_wheel, scale, mono);
 
   // Clear the palette container
   palette_container.innerHTML = "";
-  palette_container.classList += ` grid grid-rows-${color_scales.length} rows-gap-0 pb-8`
+  palette_container.classList += ` grid grid-rows-${color_scales.length} row-gap-1 pb-8`
   
   color_scales.forEach((color_scale, s) => {
     
     var row = document.createElement('div');
 
-    row.classList += ` grid grid-cols-${color_scale.length} col-gap-2`
+    row.classList += ` grid grid-cols-${color_scale.length} col-gap-1`
     huepoint = Object.values(color_scales[0]).indexOf(`#${hex}`);
     
     color_scale.forEach((color, c) => {
@@ -43,11 +72,11 @@ function makePalettes() {
       var swatch = document.createElement('div')
       var input = document.createElement('input')
 
-      swatch.classList = "flex flex-col-reverse w-full mr-2 p-1 rounded shadow-lg";
+      swatch.classList = "flex flex-col-reverse min-h-8 p-1 rounded shadow";
       swatch.style.backgroundColor = color;
 
-      input.setAttribute('data', `color${s + 1}-${shade_number}`);
-      input.classList = "mt-2 text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none";
+      input.setAttribute('id', `color${s + 1}-${shade_number}`);
+      input.classList = "text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none";
       input.value = color;
 
       swatch.append(input);
@@ -56,12 +85,14 @@ function makePalettes() {
     palette_container.append(row);
   })
 }
-
+// ==================================================
+// FUNCTIONS
+// ==================================================
 function getColors() {
   var inputs = palette_container.querySelectorAll('input');
   var colors = Object.values(inputs).map(i => {
     var obj = {};
-    obj[i.attributes.data.value] = i.value;
+    obj[i.attributes.id] = i.value;
     return obj;
   });
   return colors;
@@ -114,3 +145,6 @@ function getJSON() {
 
   navigator.clipboard.writeText(JSON.stringify(tailwind, null, 2));
 }
+
+
+ready();

@@ -1,3 +1,4 @@
 baseURL = "https://huey.design"
 languageCode = "en-us"
-title = "Huey ♥️"
+title = "Huey Color Palettes"
+description = "Rapid color palettes across the rainbow. Huey is great for instantly generating color palettes for use with CSS variables, SCSS, and Tailwind."
