@@ -4,7 +4,7 @@
 {{ $scales := resources.Get "js/scales.js" | minify }}
 {{ $main := resources.Get "js/main.js" | minify }}
 
-<script type="text/javascript" src="{{ $chroma.Permalink }}"></script>
-<script type="text/javascript" src="{{ $color.Permalink }}"></script>
-<script type="text/javascript" src="{{ $scales.Permalink }}"></script>
-<script type="text/javascript" src="{{ $main.Permalink }}"></script>
+<script type="text/javascript" src="{{ $chroma.RelPermalink }}"></script>
+<script type="text/javascript" src="{{ $color.RelPermalink }}"></script>
+<script type="text/javascript" src="{{ $scales.RelPermalink }}"></script>
+<script type="text/javascript" src="{{ $main.RelPermalink }}"></script>

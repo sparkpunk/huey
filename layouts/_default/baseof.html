@@ -31,13 +31,13 @@
   {{ if .Site.IsServer }}
     <!-- Styles -->
     {{ $style := resources.Get "css/main.css" | resources.PostCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}">
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
   {{ else }}
     
     <!-- Styles -->
     {{ $style := resources.Get "css/main.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
 
     <!-- Toasted Analytics -->
     <script type="text/javascript">
