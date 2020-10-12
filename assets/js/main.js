@@ -85,7 +85,7 @@ function makePalettes() {
       var white_contrast_text = document.createElement('div')
       
       if(white_contrast > 3 && white_contrast <= 4.5) {
-        white_contrast_text.innerText = "A";
+        white_contrast_text.innerText = "AA18";
       } else if (white_contrast > 4.5 && white_contrast <= 7) {
         white_contrast_text.innerText = "AA";
       } else if (white_contrast > 7) {

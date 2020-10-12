@@ -4,10 +4,5 @@
 {{ $scales := resources.Get "js/scales.js" | minify }}
 {{ $main := resources.Get "js/main.js" | minify }}
 
-<!-- <script type="text/javascript" src="{{ $chroma.RelPermalink }}"></script> -->
-<!-- <script type="text/javascript" src="{{ $color.RelPermalink }}"></script> -->
-<!-- <script type="text/javascript" src="{{ $scales.RelPermalink }}"></script> -->
-<!-- <script type="text/javascript" src="{{ $main.RelPermalink }}"></script> -->
-
 {{ $bundle := slice $chroma $color $scales $main | resources.Concat "js/bundle.js" }}
 <script type="text/javascript" src="{{ $bundle.RelPermalink }}"></script>

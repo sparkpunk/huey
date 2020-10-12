@@ -28,7 +28,7 @@ color_scales.forEach((color_scale,s)=>{var row=document.createElement('div');row
 huepoint=Object.values(color_scales[0]).indexOf(`#${hex}`);color_scale.forEach((color,c)=>{var shade_number=c==0?50:c*100;var swatch=document.createElement('div')
 var input=document.createElement('input')
 swatch.classList="flex flex-col-reverse min-h-8 p-1 rounded shadow";swatch.style.backgroundColor=color;input.setAttribute('data',`color${s+1}-${shade_number}`);input.setAttribute('id',`color${s+1}-${shade_number}`);input.classList="text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none";input.value=color;swatch.append(input);var white_contrast=chroma.contrast('white',color);var white_contrast_text=document.createElement('div')
-if(white_contrast>3&&white_contrast<=4.5){white_contrast_text.innerText="A";}else if(white_contrast>4.5&&white_contrast<=7){white_contrast_text.innerText="AA";}else if(white_contrast>7){white_contrast_text.innerText="AAA";}
+if(white_contrast>3&&white_contrast<=4.5){white_contrast_text.innerText="AA18";}else if(white_contrast>4.5&&white_contrast<=7){white_contrast_text.innerText="AA";}else if(white_contrast>7){white_contrast_text.innerText="AAA";}
 white_contrast_text.classList="text-xs text-white mb-auto"
 swatch.append(white_contrast_text);row.append(swatch);})
 palette_container.append(row);})}
