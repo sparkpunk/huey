@@ -5,3 +5,7 @@
 .debug {
   border: 1px solid red !important;
 }
+
+br {
+  margin-bottom: 0.125rem;
+}

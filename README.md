@@ -2,6 +2,10 @@
 
 Consistent color palettes from a single color input.
 
+### Demo
+
+[Huey](https://huey.design)
+
 ### How do I use it?
 
 1. Add your brand color as the starting hex.
