@@ -80,6 +80,22 @@ function makePalettes() {
       input.value = color;
 
       swatch.append(input);
+
+      var white_contrast = chroma.contrast('white', color);
+      var white_contrast_text = document.createElement('div')
+      
+      if(white_contrast > 3 && white_contrast <= 4.5) {
+        white_contrast_text.innerText = "A";
+      } else if (white_contrast > 4.5 && white_contrast <= 7) {
+        white_contrast_text.innerText = "AA";
+      } else if (white_contrast > 7) {
+        white_contrast_text.innerText = "AAA";
+      }
+
+      white_contrast_text.classList = "text-xs text-white mb-auto"
+      swatch.append(white_contrast_text);
+
+      
       row.append(swatch);
     })
     palette_container.append(row);

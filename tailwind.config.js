@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     colors: {
       "transparent": 'rgba(255,255,255,0.0)',
+      "white": 'rgba(255,255,255,1)',
       "gray": {
         "50": "#f2f0fa",
         "100": "#d8d6e0",
