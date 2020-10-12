@@ -29,32 +29,27 @@ function ready() {
     box.style.backgroundColor = randomColor.hex();
   });
 
-  hex = randomColor.hex();
-  hue = 8;
-  mono = 8;
-  scale = 'intensity';
+  color_input.value = randomColor.hex();
+  hue_input.value = 8;
+  mono_input.value = 8;
+  document.getElementById('intensity').checked = true;
 
-  makePalettes(hex, hue, mono, scale);
+  makePalettes();
 
 }
 
 // ==================================================
 // FUNCTIONS
 // ==================================================
-function grabValues() {
+function makePalettes() {
 
   // Grab all of the values
-  hex = chroma(color_input.value).hex();
-  hue = hue_input.value;
-  mono = mono_input.value;
-  scale = Object.values(scale_by).filter(i => i.checked)[0].value;
+  var hex = chroma(color_input.value).hex();
+  var hue = hue_input.value;
+  var mono = mono_input.value;
+  var scale = Object.values(scale_by).filter(i => i.checked)[0].value;
 
   if(hex == undefined || hue == undefined || mono == undefined || scale == undefined) return;
-
-  makePalettes(hex, hue, mono, scale);
-}
-
-function makePalettes(hex, hue, mono, scale) {
   
   var color_wheel = defineColorWheel(hue, hex);
   var color_scales = makeColorScales(color_wheel, scale, mono);
@@ -79,7 +74,8 @@ function makePalettes(hex, hue, mono, scale) {
       swatch.classList = "flex flex-col-reverse min-h-8 p-1 rounded shadow";
       swatch.style.backgroundColor = color;
 
-      input.setAttribute('id', `color${s + 1}-${shade_number}`);
+      input.setAttribute('data', `color${s + 1}-${shade_number}`);
+      input.setAttribute('id', `color${s + 1}-${shade_number}`); // for accessibility
       input.classList = "text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none";
       input.value = color;
 
@@ -94,24 +90,27 @@ function makePalettes(hex, hue, mono, scale) {
 // ==================================================
 function getColors() {
   var inputs = palette_container.querySelectorAll('input');
+  
   var colors = Object.values(inputs).map(i => {
     var obj = {};
-    obj[i.attributes.id] = i.value;
+    obj[i.attributes.data.value] = i.value;
     return obj;
   });
+
   return colors;
 }
 
 
 function getCSS() {
   var css = ":root {\n";
-  
   var colors = getColors();
+  
   colors.forEach(color => {
     css += `--${Object.keys(color)[0]}: `;
     css += `${Object.values(color)[0]};`;
     css += `\n`;
   });
+
   css += "}";
 
   navigator.clipboard.writeText(css);
