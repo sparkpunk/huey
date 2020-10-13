@@ -2,41 +2,20 @@
 // STAGING
 // ==================================================
 var hex, hue, mono, scale; 
-var randomColor = chroma.random().set('hsl.l', 0.9).set('hsl.s', 0.5);
-
 // ==================================================
 // DOM ELEMENTS
 // ==================================================
-var palette_container = document.getElementById('palette');
+var palette = document.getElementById('palette');
 
-var color_input = document.getElementById('hex-input');
+var hex_input = document.getElementById('hex-input');
 var hue_input = document.getElementById('hue-input');
-var mono_input = document.getElementById('mono-input');
-var scale_by = document.getElementsByName('scale-by');
+var val_input = document.getElementById('val-input');
+var inc_input = document.getElementsByName('inc-input');
+var intensity = document.getElementById('intensity');
+var huey_boxes = document.getElementsByClassName('huey-boxes');
 
-var box1 = document.getElementById('box1');
-var box2 = document.getElementById('box2');
-var box3 = document.getElementById('box3');
-
-// ==================================================
-// READY
-// ==================================================
-function ready() {
-  var boxes = [ box1, box2, box3 ];
-  
-  boxes.forEach((box, b) => {
-    if(b > 0) randomColor = chroma(randomColor).darken(1).saturate(2);
-    box.style.backgroundColor = randomColor.hex();
-  });
-  
-  color_input.value = randomColor.hex();
-  hue_input.value = 8;
-  mono_input.value = 8;
-  document.getElementById('intensity').checked = true;
-  
-  makePalettes();
-  
-}
+// Create a random color for branding and instant palette generation
+var hex_random = chroma.random().set('hsl.l', 0.9).set('hsl.s', 0.5);
 
 // ==================================================
 // FUNCTIONS
@@ -44,10 +23,10 @@ function ready() {
 function makePalettes() {
   
   // Grab all of the values
-  var hex = chroma(color_input.value).hex();
+  var hex = chroma(hex_input.value).hex();
   var hue = hue_input.value;
-  var mono = mono_input.value;
-  var scale = Object.values(scale_by).filter(i => i.checked)[0].value;
+  var mono = val_input.value;
+  var scale = Object.values(inc_input).filter(i => i.checked)[0].value;
   
   if(hex == undefined || hue == undefined || mono == undefined || scale == undefined) return;
   
@@ -55,8 +34,8 @@ function makePalettes() {
   var color_scales = makeColorScales(color_wheel, scale, mono);
   
   // Clear the palette container
-  palette_container.innerHTML = "";
-  palette_container.classList = `flex-grow h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
+  palette.innerHTML = "";
+  palette.classList = `flex-grow h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
 
   // Find out where the source hex is
   Object.entries(color_scales).forEach(entry => {
@@ -85,7 +64,7 @@ function makePalettes() {
       
       row.append(swatch);
     })
-    palette_container.append(row);
+    palette.append(row);
   })
 }
 // ==================================================
@@ -130,7 +109,7 @@ function makeSwatch(num, color, color_name) {
 // FUNCTIONS
 // ==================================================
 function getColors() {
-  var inputs = palette_container.querySelectorAll('input');
+  var inputs = palette.querySelectorAll('input');
   
   var colors = Object.values(inputs).map(i => {
     var obj = {};
@@ -189,6 +168,26 @@ function getJSON() {
   
   navigator.clipboard.writeText(JSON.stringify(tailwind, null, 2));
 }
+// ==================================================
+// READY
+// ==================================================
+(function ready() {
 
+  huey_boxes = Object.entries(huey_boxes);
 
-ready();
+  huey_boxes.forEach((box, b) => {
+    if(b > 0) { // darken and saturate the starting base color after 0
+      hex_random = chroma(hex_random).darken(1).saturate(2);
+    }
+    box = box[1]; // grab the actual element from the DOM list
+    box.style.backgroundColor = hex_random.hex();
+  });
+  
+  // Populate the inputs
+  hex_input.value = hex_random;
+  hue_input.value = 8;
+  val_input.value = 8;
+  intensity.checked = true;
+  
+  makePalettes();
+})();
