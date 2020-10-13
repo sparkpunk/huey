@@ -54,19 +54,19 @@
       <h1 class="my-4 font-como text-4xl font-black">huey</h1>
       <p class="">Light to dark palettes, <br /> across the rainbow.</p>
     </div>
-    <div class="flex flex-col mb-6">
+    <div class="flex-shrink-0 flex flex-col mb-6">
       <label for="hex-input" class="mb-2 ml-px text-xs uppercase font-semibold">Starting color</label>
       <input id="hex-input" type="color" onchange="makePalettes()" class="w-full h-10 py-2 pr-4 pl-4 text-gray-600 bg-transparent border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
     </div>
-    <div class="flex flex-col mb-6">
+    <div class="flex-shrink-0 flex flex-col mb-6">
       <label for="hue-input" class="mb-2 ml-px text-xs uppercase font-semibold">Total hues</label>
       <input id="hue-input" type="number" min="1" max="24" onchange="makePalettes()" placeholder="" class="appearance-none py-2 pr-4 pl-4 text-gray-600 bg-white border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
     </div>
-    <div class="flex flex-col mb-6">
+    <div class="flex-shrink-0 flex flex-col mb-6">
       <label for="mono-input" class="mb-2 ml-px text-xs uppercase font-semibold">Tints & shades</label>
       <input id="mono-input" type="number" min="1" max="24" onchange="makePalettes()" placeholder="" class="appearance-none py-2 pr-4 pl-4 text-gray-600 bg-white border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:border-gray-400" />
     </div>
-    <div class="flex flex-col">
+    <div class="flex-shrink-0 flex flex-col">
       <p for="scale-by" class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</p>
       <div class="flex items-center h-6 mb-2">
         <input class="mr-2" type="radio" onchange="makePalettes()" name="scale-by" id="intensity" value="intensity">
@@ -81,7 +81,7 @@
         <label for="lumi" class="text-xs text-gray-600">Luminosity</label>
       </div>
     </div>
-    <div class="mt-auto text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a></div>
+    <div class="mt-8 pb-10 text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
   </form>
 
   <div class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8 pb-8">
