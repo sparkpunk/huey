@@ -23,15 +23,19 @@ function makeBlack(scale_by) {
 function makeColorScales(color_wheel, scale_by, monochromes) {
 
   var { mode, multiplier } = makeBlack(scale_by);
+  var obj = {};
   var huepoint;
 
-  return color_wheel.map(color => {
+  color_wheel.map(color => {
+    
+    var shift_down;
+    
     // Analyze the input color to access color makeup
     var Local_Color = new Color(color);
+    var h = Local_Color.hue;
+    var color_name = getColorName(h);
     var scale_value = Local_Color[scale_by];
 
-    var shift_down;
-    var h = Local_Color.hue;
 
     if ((h > 0 && h <= 60) || (h > 120 && h <= 180) || (h > 240 && h <= 300)) {
       shift_down = true;
@@ -69,9 +73,12 @@ function makeColorScales(color_wheel, scale_by, monochromes) {
     // Depending on where ${color}'s hue is, we need to shift it towards or away from luminosity "buckets"
     color_scale = hueShift(color_scale, huepoint, shift_down);
 
-    // Ding! Pizza's ready
-    return color_scale;
-  })
+    // Populate the object
+    obj[color_name] = color_scale
+
+  });
+  // Ding! Pizza's ready
+  return obj;
 }
 
 
@@ -103,6 +110,28 @@ function defineColorWheel(num, color) {
     return chroma(local_hue, saturation, value, 'hsv').hex();
     // return chroma(local_hue, saturation, intensity, 'hsi').hex();
   });
+}
+
+function getColorName(hue) {
+  var hue_fixed = hue.toFixed(3)
+  var current = 0
+  var arr = Object.entries(color_names);
+
+  for(var i = 0; i < arr.length; i++) {
+    var defender = current;
+    var challenger = arr[i][1];
+
+    if(Math.abs(defender - hue_fixed) > Math.abs(challenger - hue_fixed)) {
+      current = challenger;
+    }
+  }
+  
+  return getKeyByValue(color_names, current)
+
+}
+
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
 }
 
 
