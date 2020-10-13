@@ -127,7 +127,7 @@ module.exports = {
       '16': '4rem',  
     },
     minWidth: {
-      '16': '4rem',  
+      '16': '4rem',
     },
     extend: {
       gridTemplateColumns: {

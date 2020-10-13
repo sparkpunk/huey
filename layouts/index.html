@@ -36,22 +36,22 @@
         <label for="lumi" class="text-xs text-gray-600">Luminosity</label>
       </div>
     </div>
-    <div class="mt-8 pb-10 text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
+    <div class="mt-auto text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
   </form>
 
-  <div class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8 pb-8">
+  <div class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8">
     <div class="flex items-center mb-4">
-      <button onclick="getCSS()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-400 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+      <button id="getCSS" onclick="getCSS()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-600 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-purple-500 hover:text-white">
         Copy CSS
       </button>
-      <button onclick="getSCSS()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-400 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+      <button id="getSCSS" onclick="getSCSS()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-600 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-purple-500 hover:text-white">
         Copy SCSS
       </button>
-      <button onclick="getJSON()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-400 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-blue-500 hover:text-white">
+      <button id="getJSON" onclick="getJSON()" class="appearance-none flex-shrink-0 mr-2 py-1 px-2 text-xs font-semibold leading-normal text-gray-600 bg-gray-100 rounded transition-colors duration-200 ease-in-out hover:bg-purple-500 hover:text-white">
         Copy Tailwind
       </button>
     </div>
-    <div id="palette" class="flex-grow w-auto h-full grid gap-2">
+    <div id="palette">
       <div class="grid-cols-1 grid-rows-1 row-gap-1 col-gap-1"></div>
       <div class="grid-cols-2 grid-rows-2 row-gap-2 col-gap-2"></div>
       <div class="grid-cols-3 grid-rows-3 row-gap-3 col-gap-3"></div>

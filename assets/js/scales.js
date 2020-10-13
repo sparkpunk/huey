@@ -1,28 +1,28 @@
-function makeBlack(scale_by) {
-  if(scale_by == 'intensity') return {
-    mode: 'hsi.i',
-    multiplier: '1' 
-  }
+// function makeBlack(scale_by) {
+//   if(scale_by == 'intensity') return {
+//     mode: 'hsi.i',
+//     multiplier: '1' 
+//   }
   
-  if(scale_by == 'lightness') return {
-    mode: 'hsl.l',
-    multiplier: '.1' 
-  }
+//   if(scale_by == 'lightness') return {
+//     mode: 'hsl.l',
+//     multiplier: '.1' 
+//   }
 
-  if(scale_by == 'lumi') return {
-    mode: 'lch.l',
-    multiplier: '.1' 
-  }
+//   if(scale_by == 'lumi') return {
+//     mode: 'lch.l',
+//     multiplier: '.1' 
+//   }
 
-  if(scale_by == 'value') return {
-    mode: 'hsv.v',
-    multiplier: '.01' 
-  }
-}
+//   if(scale_by == 'value') return {
+//     mode: 'hsv.v',
+//     multiplier: '.01' 
+//   }
+// }
 
 function makeColorScales(color_wheel, scale_by, monochromes) {
 
-  var { mode, multiplier } = makeBlack(scale_by);
+  // var { mode, multiplier } = makeBlack(scale_by);
   var obj = {};
   var huepoint;
 
@@ -44,10 +44,10 @@ function makeColorScales(color_wheel, scale_by, monochromes) {
     }
 
     // We pass #fff because colors lose saturation as they get lighter
-    let white = chroma('#fff').set('hsl.s', 0.05);
+    let white = chroma('#fff').set('hsl.s', 0.025);
 
     // If we pass plain ol' black, we get desaturated darks :( No bueno!
-    let black = chroma(color).set('hsl.l', 0.05);
+    let black = chroma(color).set('hsl.l', 0.025);
     // var black = chroma(color).set(mode, multiplier).set('hsv.v', 0.1);
 
     // Set scale parameters. Also use domain weights to ensure proper color placement,
@@ -73,7 +73,7 @@ function makeColorScales(color_wheel, scale_by, monochromes) {
     // Depending on where ${color}'s hue is, we need to shift it towards or away from luminosity "buckets"
     color_scale = hueShift(color_scale, huepoint, shift_down);
 
-    // Populate the object
+    // Populate
     obj[color_name] = color_scale
 
   });

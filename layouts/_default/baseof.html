@@ -31,15 +31,27 @@
 
   <!-- Preconnect -->
   <link rel="preconnect" href="https://use.typekit.net">
+  <link rel="preconnect" href="https://unpkg.com">
+
   <link rel="stylesheet" href="https://use.typekit.net/pys3ntr.css">
   
   <!-- Purge CSS (or don't!) depending on Hugo environment -->
   {{ if .Site.IsServer }}
+
+    <!-- Tippy Import -->
+    <!-- Development -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
     <!-- Styles -->
     {{ $style := resources.Get "css/main.css" | resources.PostCSS (dict "config" "./assets/css/dev/postcss.config.js") }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
   {{ else }}
+
+    <!-- Tippy Import -->
+    <!-- Production -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     
     <!-- Styles -->
     {{ $style := resources.Get "css/main.css" | postCSS (dict "config" "./assets/css/postcss.config.js") | minify }}
