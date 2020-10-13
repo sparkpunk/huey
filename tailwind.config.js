@@ -123,6 +123,12 @@ module.exports = {
     fontFamily: {
       'como': [ 'como', 'sans-serif' ]
     },
+    minHeight: {
+      '16': '4rem',  
+    },
+    minWidth: {
+      '16': '4rem',  
+    },
     extend: {
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
@@ -154,6 +160,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    minWidth: ['responsive'],
+  },
   plugins: [],
 };

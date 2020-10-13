@@ -57,7 +57,7 @@ function makePalettes() {
   // Clear the palette container
   palette_container.innerHTML = "";
   palette_container.classList = "";
-  palette_container.classList = `flex-grow w-full h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
+  palette_container.classList = `flex-grow min-w-auto h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
   
   color_scales.forEach((color_scale, s) => {
     
@@ -71,7 +71,7 @@ function makePalettes() {
       var swatch = document.createElement('div')
       var input = document.createElement('input')
 
-      swatch.classList = "flex flex-col-reverse min-h-8 p-1 rounded shadow";
+      swatch.classList = "flex flex-col-reverse p-1 min-w-16 rounded shadow";
       swatch.style.backgroundColor = color;
 
       input.setAttribute('data', `color${s + 1}-${shade_number}`);
