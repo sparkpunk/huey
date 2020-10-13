@@ -57,13 +57,13 @@ function makePalettes() {
   // Clear the palette container
   palette_container.innerHTML = "";
   palette_container.classList = "";
-  palette_container.classList = `flex-grow min-w-auto h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
+  palette_container.classList = `flex-grow h-full grid grid-rows-${color_scales.length} row-gap-2 pb-8`
   
   color_scales.forEach((color_scale, s) => {
     
     var row = document.createElement('div');
 
-    row.classList += ` grid grid-cols-${color_scale.length} col-gap-2`
+    row.classList = ` flex`
     huepoint = Object.values(color_scales[0]).indexOf(`#${hex}`);
     
     color_scale.forEach((color, c) => {
@@ -71,7 +71,7 @@ function makePalettes() {
       var swatch = document.createElement('div')
       var input = document.createElement('input')
 
-      swatch.classList = "flex flex-col-reverse p-1 min-w-16 rounded shadow";
+      swatch.classList = "flex flex-col-reverse w-20 mr-2 p-1 rounded-sm shadow-sm";
       swatch.style.backgroundColor = color;
 
       input.setAttribute('data', `color${s + 1}-${shade_number}`);
