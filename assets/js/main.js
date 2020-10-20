@@ -29,17 +29,17 @@ function makePalettes() {
   var hue = hue_input.value;
   var val = val_input.value;
   var inc = Object.values(inc_input).filter(i => i.checked)[0].value;
-  
+
   if(hex == undefined || hue == undefined || val == undefined || inc == undefined) return;
-  
+
   var color_wheel = defineColorWheel(hue, hex);
   var color_scales = makeColorScales(color_wheel, inc, val);
-  
+
   // Clear the palette container
   palette.innerHTML = "";
   palette.classList = paletteClassList;
   paletteClassList += ` grid-rows-${color_scales.length}`
-  
+
   Object.entries(color_scales).forEach((color_obj, s) => {
     // Create a new row for each hue family
     var row = document.createElement('div');
@@ -55,6 +55,7 @@ function makePalettes() {
     });
     palette.append(row);
   })
+  alpinaWebAnalytics.emit('PaletteCreated');
 }
 // ==================================================
 // UTILITIES
@@ -71,14 +72,14 @@ function makeInput(num, color, color_name) {
 function makeSwatch(num, color, color_name) {
   var input = makeInput(num, color, color_name);
   var swatch = document.createElement('div');
-  
+
   swatch.classList = swatchClassList;
   swatch.style.backgroundColor = color;
-  
+
   // This needs to be refactored
   var white_contrast = chroma.contrast('white', color);
   var white_contrast_text = document.createElement('div')
-  
+
   if(white_contrast > 3 && white_contrast <= 4.5) {
     white_contrast_text.innerText = "AA18";
   } else if (white_contrast > 4.5 && white_contrast <= 7) {
@@ -86,12 +87,12 @@ function makeSwatch(num, color, color_name) {
   } else if (white_contrast > 7) {
     white_contrast_text.innerText = "AAA";
   }
-  
+
   white_contrast_text.classList = "text-xs text-white"
-  
+
   swatch.append(input);
   swatch.append(white_contrast_text);
-  
+
   return swatch;
 }
 // ==================================================
@@ -99,13 +100,13 @@ function makeSwatch(num, color, color_name) {
 // ==================================================
 function getColors() {
   var inputs = palette.querySelectorAll('input');
-  
+
   var colors = Object.values(inputs).map(i => {
     var obj = {};
     obj[i.attributes.data.value] = i.value;
     return obj;
   });
-  
+
   return colors;
 }
 
@@ -115,14 +116,14 @@ function getColors() {
 function getCSS() {
   var css = ":root {\n";
   var colors = getColors();
-  
+
   colors.forEach(color => {
     css += `--${Object.keys(color)[0]}: `;
     css += `${Object.values(color)[0]};`;
     css += `\n`;
   });
   css += "}";
-  
+
   navigator.clipboard.writeText(css);
 
 }
@@ -130,32 +131,32 @@ function getCSS() {
 function getSCSS() {
   var scss = "";
   var colors = getColors();
-  
+
   colors.forEach(color => {
     scss += `$${Object.keys(color)[0]}: `;
     scss += `${Object.values(color)[0]};`;
     scss += `\n`;
   });
-  
+
   navigator.clipboard.writeText(scss);
 }
 
 function getJSON() {
   var tailwind = {};
   var colors = getColors();
-  
+
   colors.forEach(color => {
     var color_key = Object.keys(color)[0].split('-');
     var color_val = Object.values(color)[0];
     var color_parent = color_key[0];
     var color_child = color_key[1];
-    
+
     if(!tailwind[color_parent]) {
       tailwind[color_parent] = {};
     }
     tailwind[color_parent][color_child] = color_val;
   })
-  
+
   navigator.clipboard.writeText(JSON.stringify(tailwind, null, 2));
 }
 // ==================================================
@@ -175,6 +176,6 @@ function getJSON() {
   hue_input.value = 10;
   val_input.value = 10;
   intensity.checked = true;
-  
+
   makePalettes();
 })();
