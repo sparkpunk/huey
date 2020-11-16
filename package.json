@@ -9,11 +9,11 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "autoprefixer": "^10.0.1",
+    "autoprefixer": "^9.8.6",
     "core-js": "^3.6.5",
-    "postcss": "^8.1.1",
-    "postcss-cli": "^8.1.0",
-    "postcss-import": "^12.0.1",
+    "postcss": "^8.1.7",
+    "postcss-cli": "^8.2.0",
+    "postcss-loader": "^4.0.4",
     "tailwindcss": "^1.9.0",
     "vue": "^3.0.0"
   },
@@ -45,7 +45,7 @@
     "last 2 versions",
     "not dead"
   ],
-  "_id": "huey@1.1.0",
+  "_id": "huey@1.22.1",
   "bugs": {
     "url": "https://github.com/sparkpunk/hugo-tailwind-boilerplate/issues"
   },
