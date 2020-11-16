@@ -1,17 +1,7 @@
 {
   "name": "huey",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "consistent color palettes from a single color input",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/sparkpunk/hugo-tailwind-boilerplate.git"
-  },
-  "keywords": [
-    "hugo",
-    "tailwind",
-    "boilerplate"
-  ],
-  "license": "MIT",
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^3.0.0",
     "autoprefixer": "^10.0.1",
@@ -20,5 +10,25 @@
     "postcss-import": "^12.0.1",
     "purgecss": "^3.0.0",
     "tailwindcss": "^1.8.12"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0"
+  },
+  "_id": "huey@1.0.0",
+  "bugs": {
+    "url": "https://github.com/sparkpunk/hugo-tailwind-boilerplate/issues"
+  },
+  "homepage": "https://github.com/sparkpunk/hugo-tailwind-boilerplate#readme",
+  "keywords": [
+    "tailwind",
+    "color palettes",
+  ],
+  "license": "MIT",
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sparkpunk/huey.git"
   }
 }
