@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "autoprefixer": "^9.8.6",
+    "chroma-js": "^2.1.0",
     "core-js": "^3.6.5",
     "postcss": "^8.1.7",
     "postcss-cli": "^8.2.0",
