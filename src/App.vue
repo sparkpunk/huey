@@ -7,7 +7,8 @@
         <color-box
           v-for="color in colors"
           :key="color"
-          background="color">
+          :color="color"
+          class="w-4 h-4 mr-2 last:mr-0 transform hover:rotate-45 transition-all duration-200">
         </color-box>
       </div>
       <h1 class="my-4 font-display text-5xl text-gray-800">huey</h1>
@@ -20,23 +21,31 @@
 // MODULES
 import chroma from 'chroma-js';
 // COMPONENTS
-import ColorBox from './components/ColorBox.vue';
+import ColorBox from './components/ColorBox';
 
-const derp = [
-  chroma.random().hex(),
-  chroma.random().hex(),
-  chroma.random().hex(),
-]
+// Get random colors
+const degree = Math.floor(Math.random() * 360) + 1
+const colors = chroma.cubehelix()
+  .start(degree)
+  .rotations(1/3)
+  .hue([0.8, 1])
+  .lightness([0.9, 0.5])
+  .scale()
+  .colors(6);
 
 export default {
   name: 'App',
   components: {
     ColorBox,
   },
+  created() {
+    // var vm = this;
+  },
   data() {
     return {
-      colors: derp,
+      colors: colors,
+      source: colors[3],
     }
   },
-}
+};
 </script>

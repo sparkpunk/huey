@@ -6,6 +6,7 @@ module.exports = {
   purge: [
     './public/**/*.html',
     './src/**/*.vue',
+    './src/**/*.js',
   ],
   theme: {
     fontFamily: {
@@ -125,6 +126,8 @@ module.exports = {
       }
     }
   },
-  variants: ['responsive', 'group-hover', 'disabled', 'hover', 'focus', 'active', 'first', 'last'],
+  variants: [
+    'responsive', 'group-hover', 'hover', 'disabled', 'focus', 'active', 'first', 'last'
+  ],
   plugins: [],
 };
