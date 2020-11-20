@@ -1,27 +1,18 @@
 <template>
-  <form
-    onsubmit="return false"
-    class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-10 text-gray-800 border-r border-gray-100">
-    <div class="mb-12">
-      <div class="flex">
-        <color-box
-          v-for="color in colors"
-          :key="color"
-          :color="color"
-          class="w-4 h-4 mr-2 last:mr-0 transform hover:rotate-45 transition-all duration-200">
-        </color-box>
-      </div>
-      <h1 class="my-4 font-display text-5xl text-gray-800">huey</h1>
-      <p class="">Light to dark palettes, <br /> across the rainbow.</p>
-    </div>
-  </form>
+  <Form :colors="colors"
+    :source="source.hex"
+    @handle-input="handleInput" />
+  <div class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8">
+    {{ source }}
+  </div>
 </template>
 
 <script>
 // MODULES
 import chroma from 'chroma-js';
+
 // COMPONENTS
-import ColorBox from './components/ColorBox';
+import Form from './Form';
 
 // Get random colors
 const degree = Math.floor(Math.random() * 360) + 1
@@ -36,16 +27,32 @@ const colors = chroma.cubehelix()
 export default {
   name: 'App',
   components: {
-    ColorBox,
-  },
-  created() {
-    // var vm = this;
+    Form,
   },
   data() {
     return {
       colors: colors,
-      source: colors[3],
+      source: {
+        hex: colors[3],
+        hues: '',
+        tints: '',
+        scale: ''
+      },
     }
   },
+  methods: {
+    handleInput(obj) {
+      var valid = false;
+      var key = Object.keys(obj)[0];
+      var val = Object.values(obj)[0];
+      if(key === "hex") {
+        if(val[0] != "#") val = `#${val}`;
+        valid = /^(#)?[0-9A-F]{6}$/i.test(val);
+      } else {
+        valid = true;
+      }
+      if(valid) this.source[key] = val;
+    }
+  }
 };
 </script>
