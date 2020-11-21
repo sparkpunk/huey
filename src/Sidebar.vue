@@ -1,11 +1,12 @@
 <template>
-  <form @submit.prevent=""
-      class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-10 text-gray-800 border-r border-gray-100">
+  <div class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-10 text-gray-800 border-r border-gray-100">
+    <form @submit.prevent="">
       <div class="mb-12">
         <div class="flex">
-          <ColorBox v-for="color in colors"
+          <color-box v-for="color in colors"
             :key="color"
-            :color="color" />
+            :color="color"
+            class="w-4 h-4 mr-2 last:mr-0" />
         </div>
         <h1 class="my-4 font-display text-5xl text-gray-800">huey</h1>
         <p class="">Light to dark palettes, <br /> across the rainbow.</p>
@@ -30,8 +31,9 @@
         :name="item.name"
         :value="item.value"
         :checked="item.checked" />
-      <div class="mt-auto text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
+      <div class="group mt-auto text-xs text-gray-400">Made with <span class="relative"><span class="absolute group-hover:animate-ping w-3 h-3 -mt-px duration-500">♥️</span>♥️</span> by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
     </form>
+  </div>
 </template>
 
 <script>
@@ -41,7 +43,7 @@ import ColorInput from './components/ColorInput';
 import ColorRadio from './components/ColorRadio';
 
 export default {
-  name: 'Form',
+  name: "Sidebar",
   components: {
     ColorBox,
     ColorInput,
@@ -70,11 +72,6 @@ export default {
         required: true,
       },
     },
-  },
-  data() {
-    return {
-      'scale': this.source.scale,
-    }
   },
   methods: {
 

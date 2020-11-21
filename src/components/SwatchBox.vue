@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "color-box",
+  name: "swatch-box",
   props: {
     color: {
       type: String,

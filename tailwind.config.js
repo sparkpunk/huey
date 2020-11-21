@@ -124,7 +124,12 @@ module.exports = {
         "800": "#143747",
         "900": "#071d28"
       }
-    }
+    },
+    extend: {
+      transitionDuration: {
+        "10000": "10000ms",
+       },
+    },
   },
   variants: [
     'responsive', 'group-hover', 'hover', 'disabled', 'focus', 'active', 'first', 'last'

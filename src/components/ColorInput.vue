@@ -38,7 +38,6 @@ export default {
   data() {
     return {
       error: false,
-      handleInput: this.handleInput,
     };
   },
   methods: {
