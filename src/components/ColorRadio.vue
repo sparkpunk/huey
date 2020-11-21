@@ -4,7 +4,7 @@
       type="radio"
       :name="group"
       :value="value"
-      :selected="selected"
+      :checked="checked"
       @change="handleRadio"
       class="debug w-4 h-4 mr-2 rounded-full" />
     <label :for="name" class="text-xs font-semibold text-gray-800">
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  emits: ['handle-radio'],
+  inject: ['handleRadio'],
   props: {
     'name': {
       type: String,
@@ -25,7 +25,7 @@ export default {
       type: String,
       required: true,
     },
-    'selected': {
+    'checked': {
       type: Boolean,
       required: true,
     },
@@ -35,9 +35,7 @@ export default {
     },
   },
   methods: {
-    handleRadio(e) {
-      this.$emit('handle-radio', e);
-    },
+
   },
 }
 </script>

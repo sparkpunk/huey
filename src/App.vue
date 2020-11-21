@@ -1,9 +1,7 @@
 <template>
   <Form :colors="colors"
     :source="source"
-    :scale="scale"
-    @handle-input="handleInput"
-    @handle-radio="handleRadio" />
+    :scale="scale" />
   <div class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8">
     {{ source }}
   </div>
@@ -45,39 +43,38 @@ export default {
           {
             name: "Brightness",
             value: 'brightness',
-            selected: true,
+            checked: true,
           },
           {
             name: "Intensity",
             value: 'intensity',
-            selected: false,
+            checked: false,
           },
           {
             name: "Luminosity",
             value: 'luminosity',
-            selected: false,
+            checked: false,
           },
         ],
       },
-    }
+    };
   },
   methods: {
     handleInput(obj) {
-      var valid = false;
-      var key = Object.keys(obj)[0];
-      var val = Object.values(obj)[0];
-
-      if(key === "hex") {
-        if(val[0] != "#") val = `#${val}`;
-        valid = /^(#)?[0-9A-F]{6}$/i.test(val);
-      } else {
-        valid = true;
-      }
-
-      if(valid) this.source[key] = val;
+      var { name, value } = obj;
+      this.source[name] = value;
     },
-    handleRadio(obj) {
-      console.log(obj);
+    handleRadio(e) {
+      var { scale } = this.source;
+      var { value } = e.target;
+      scale.forEach(i => i.checked = i.value == value ? true : false)
+      this.source.scale = scale;
+    }
+  },
+  provide() {
+    return {
+      handleInput: this.handleInput,
+      handleRadio: this.handleRadio,
     }
   }
 };

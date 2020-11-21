@@ -13,18 +13,15 @@
       <ColorInput name="hex"
         label="Starting Hex"
         type="text"
-        :value="source.hex"
-        @handle-input="handleInput" />
+        :value="source.hex" />
       <ColorInput name="hues"
         label="Hue Families"
         type="number"
-        :value="source.hues"
-        @handle-input="handleInput" />
+        :value="source.hues" />
       <ColorInput name="tints"
         label="Tints &amp; Shades"
         type="number"
-        :value="source.tints"
-        @handle-input="handleInput" />
+        :value="source.tints" />
       <label class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</label>
       <ColorRadio v-for="item in source.scale"
         group="scale"
@@ -32,8 +29,7 @@
         :key="item.value"
         :name="item.name"
         :value="item.value"
-        :selected="item.selected"
-        @handle-radio="handleRadio" />
+        :checked="item.checked" />
       <div class="mt-auto text-xs text-gray-400">Made with ♥️ by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
     </form>
 </template>
@@ -51,29 +47,25 @@ export default {
     ColorInput,
     ColorRadio,
   },
-  emits: [
-    'handle-input',
-    'handle-radio'
-  ],
   props: {
-    'colors': {
+    colors: {
       type: Object,
       required: true,
     },
-    'source': {
-      'hex': {
+    source: {
+      hex: {
         type: String,
         required: true,
       },
-      'hues': {
+      hues: {
         type: String,
         required: true,
       },
-      'tints': {
+      tints: {
         type: String,
         required: true,
       },
-      'scale': {
+      scale: {
         type: Object,
         required: true,
       },
@@ -85,18 +77,7 @@ export default {
     }
   },
   methods: {
-    handleInput(e) {
-      var { name, value } = e.target;
-      var obj = {};
-      obj[name] = value;
-      this.$emit('handle-input', obj);
-    },
-    handleRadio(e) {
-      var { scale } = this;
-      var { value } = e.target;
-      scale.forEach(i => i.selected = i.value == value ? true : false)
-      this.$emit('handle-radio', scale)
-    }
+
   }
 };
 </script>
