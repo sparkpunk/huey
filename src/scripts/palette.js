@@ -1,181 +1,165 @@
-// ==================================================
-// STAGING
-// ==================================================
-var hex, hue, mono, scale;
+// MODULES and IMPORTS
+import chroma from 'chroma-js';
+import Color from './color';
+import * as color_names from './names';
 
-// Create a random color for branding and instant palette generation
-var hex_random = chroma.random().set('hsl.l', 0.9).set('hsl.s', 0.5);
-// ==================================================
-// DOM ELEMENTS
-// ==================================================
-// var palette = document.getElementById('palette');
-// var hex_input = document.getElementById('hex-input');
-// var hue_input = document.getElementById('hue-input');
-// var val_input = document.getElementById('val-input');
-// var inc_input = document.getElementsByName('inc-input');
-// var intensity = document.getElementById('intensity');
-// var huey_boxes = document.getElementsByClassName('huey-boxes');
+// MAIN FUNCTION
+export default function colorWheel(color, hues, tints, scale) {
+  // set space between each hue family
+  var degree_step = 360 / hues;
+  // Chroma-fy the original hex to get color makeup
+  color = new Color(color);
 
-// Classnames here to keep logic clean
-var inputClassList = "min-w-16 w-full mt-1 py-px text-xs text-center text-gray-800 rounded-sm opacity-50 focus:outline-none"
-var swatchClassList = "swatch flex flex-col-reverse w-full mr-2 p-1 rounded-sm shadow-sm";
-var paletteClassList = "flex-grow h-full grid row-gap-2";
-// ==================================================
-// FUNCTIONS
-// ==================================================
-function makePalettes() {
-  // Grab all of the values
-  var hex = chroma(hex_input.value).hex();
-  var hue = hue_input.value;
-  var val = val_input.value;
-  var inc = Object.values(inc_input).filter(i => i.checked)[0].value;
+  var { hue, saturation, lightness } = color;
 
-  if(hex == undefined || hue == undefined || val == undefined || inc == undefined) return;
+  var arr = Array.from({length: hues}).map((n, i) => {
+    // Always return the original brand color
+    if(i == 0) return color.hex;
 
-  var color_wheel = defineColorWheel(hue, hex);
-  var color_scales = makeColorScales(color_wheel, inc, val);
+    var local_hue = hue;
+    // Step around the color wheel at regular intervals
+    if(i != 0) {
+      local_hue = hue + (degree_step * i);
+      local_hue = local_hue < 360 ? local_hue : local_hue - 360;
+    }
 
-  // Clear the palette container
-  palette.innerHTML = "";
-  palette.classList = paletteClassList;
-  paletteClassList += ` grid-rows-${color_scales.length}`
+    var local_color = chroma(local_hue, saturation, lightness, 'hsl').hex();
+    // var local_lumi = chroma(local_color).luminance(lumi).hex()
 
-  Object.entries(color_scales).forEach((color_obj, s) => {
-    // Create a new row for each hue family
-    var row = document.createElement('div');
-    row.classList = "flex"
+    return local_color
+  });
 
-    var color_name = color_obj[0];
-    var color_scale = color_obj[1];
-
-    color_scale.forEach((color, c) => {
-      var suffix = c == 0 ? 50 : c * 100;
-      var swatch = makeSwatch(suffix, color, color_name);
-      row.append(swatch);
-    });
-    palette.append(row);
-  })
-  alpinaWebAnalytics.emit('PaletteCreated');
-}
-// ==================================================
-// UTILITIES
-// ==================================================
-function makeInput(num, color, color_name) {
-  var input = document.createElement('input');
-  input.setAttribute('data', `${color_name}-${num}`);
-  input.setAttribute('id', `${color_name}-${num}`);
-  input.classList = inputClassList;
-  input.value = color;
-  return input;
+  return makePalette(arr, tints, scale)
 }
 
-function makeSwatch(num, color, color_name) {
-  var input = makeInput(num, color, color_name);
-  var swatch = document.createElement('div');
+function makePalette(color_wheel, tints, scale) {
 
-  swatch.classList = swatchClassList;
-  swatch.style.backgroundColor = color;
+  var obj = {};
+  var huepoint;
 
-  // This needs to be refactored
-  var white_contrast = chroma.contrast('white', color);
-  var white_contrast_text = document.createElement('div')
+  color_wheel.map(color => {
 
-  if(white_contrast > 3 && white_contrast <= 4.5) {
-    white_contrast_text.innerText = "AA18";
-  } else if (white_contrast > 4.5 && white_contrast <= 7) {
-    white_contrast_text.innerText = "AA";
-  } else if (white_contrast > 7) {
-    white_contrast_text.innerText = "AAA";
+    var shift_down;
+
+    // Analyze the input color to access color makeup
+    var Local_Color = new Color(color);
+    var h = Local_Color.hue;
+    var color_name = getColorName(h);
+    var scale_value = Local_Color[scale];
+
+
+    if ((h > 0 && h <= 60) || (h > 120 && h <= 180) || (h > 240 && h <= 300)) {
+      shift_down = true;
+    } else {
+      shift_down = false;
+    }
+
+    // We pass #fff because colors lose saturation as they get lighter
+    // var white = chroma("#fff").set('hsl.l', 0.975).set('hsl.s', .025).hex();
+    var white = chroma("#fff").hex();
+
+    // If we pass plain ol' black, we get desaturated darks :( No bueno!
+    var black = chroma("#000").set('hsl.l', 0.025).set('hsl.s', 1).hex();
+
+    // var black = chroma(color).set(mode, multiplier).set('hsv.v', 0.1);
+
+    // Set scale parameters. Also use domain weights to ensure proper color placement,
+    // otherwise ${color} will always be in the middle, even if it's already very light or dark
+    var scale_colors = [white, color, black];
+    var scale_domains = [0, (1 - scale_value) / (1 + scale_value), 1];
+
+    // Make our scale with more than we need (will always lead with pure white)
+    var color_scale = chroma.scale(scale_colors).domain(scale_domains).colors(tints * 2 + 1);
+
+    // Shrink our scale colors, which will remove pure white at the beginning of each one
+    color_scale = color_scale.filter((hex, i) => i % 2 != 0 );
+
+    // If our original ${color} isn't included, find where it should go and replace it
+    if(color_scale.indexOf(color) == -1) {
+      huepoint = getClosest(scale_value, color_scale, scale);
+      huepoint = huepoint.index;
+    } else {
+      huepoint = color_scale.indexOf(color);
+    }
+    color_scale[huepoint] = color;
+
+    // Depending on where ${color}'s hue is, we need to shift it towards or away from luminosity "buckets"
+    color_scale = hueShift(color_scale, huepoint, shift_down);
+
+    // Populate
+    obj[color_name] = color_scale
+
+  });
+  // Ding! Pizza's ready
+  return obj;
+}
+
+function getColorName(hue) {
+  var hue_fixed = hue.toFixed(3)
+  var current = 0
+  var arr = Object.entries(color_names);
+
+  for(var i = 0; i < arr.length; i++) {
+    var defender = current;
+    var challenger = arr[i][1];
+
+    if(Math.abs(defender - hue_fixed) > Math.abs(challenger - hue_fixed)) {
+      current = challenger;
+    }
   }
 
-  white_contrast_text.classList = "text-xs text-white"
-
-  swatch.append(input);
-  swatch.append(white_contrast_text);
-
-  return swatch;
-}
-// ==================================================
-// FUNCTIONS
-// ==================================================
-function getColors() {
-  var inputs = palette.querySelectorAll('input');
-
-  var colors = Object.values(inputs).map(i => {
-    var obj = {};
-    obj[i.attributes.data.value] = i.value;
-    return obj;
-  });
-
-  return colors;
-}
-
-
-
-
-function getCSS() {
-  var css = ":root {\n";
-  var colors = getColors();
-
-  colors.forEach(color => {
-    css += `--${Object.keys(color)[0]}: `;
-    css += `${Object.values(color)[0]};`;
-    css += `\n`;
-  });
-  css += "}";
-
-  navigator.clipboard.writeText(css);
+  return getKeyByValue(color_names, current)
 
 }
 
-function getSCSS() {
-  var scss = "";
-  var colors = getColors();
-
-  colors.forEach(color => {
-    scss += `$${Object.keys(color)[0]}: `;
-    scss += `${Object.values(color)[0]};`;
-    scss += `\n`;
-  });
-
-  navigator.clipboard.writeText(scss);
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
 }
 
-function getJSON() {
-  var tailwind = {};
-  var colors = getColors();
 
-  colors.forEach(color => {
-    var color_key = Object.keys(color)[0].split('-');
-    var color_val = Object.values(color)[0];
-    var color_parent = color_key[0];
-    var color_child = color_key[1];
-
-    if(!tailwind[color_parent]) {
-      tailwind[color_parent] = {};
+// This looks for the item in an array with a value closest to ${num}
+function getClosest(num, arr, arg) {
+  // Set the current variable
+  var current = { index: 0, color: "#ffffff" };
+  // Loop around the array
+  for(var i = 0; i < arr.length; i++) {
+    var defender = new Color(current.color)[arg];
+    var challenger = new Color(arr[i])[arg];
+    if(Math.abs(num - challenger) < Math.abs(num - defender)) {
+      current = { index: i, color: arr[i] };
     }
-    tailwind[color_parent][color_child] = color_val;
-  })
-
-  navigator.clipboard.writeText(JSON.stringify(tailwind, null, 2));
+  }
+  return current;
 }
-// ==================================================
-// READY
-// ==================================================
-(function ready() {
 
-  Object.entries(huey_boxes).forEach((box, b) => {
-    if(b > 0) { // darken and saturate the starting base color after 0
-      hex_random = chroma(hex_random).darken(1).saturate(2);
+
+// Hues shift as their luminosity darkens
+function hueShift(color_scale, huepoint, shift_down) {
+  return color_scale.map((color, i) => {
+    var c = chroma(color);
+
+    var h = c.get('hsv.h');
+    var s = c.get('hsv.s');
+    var v = c.get('hsv.v');
+    // var j = h;
+
+    var distance = Math.abs(i - huepoint);
+    var multiplier = h / 180;
+    var shift_distance = distance * multiplier;
+
+
+    var hue_down = h - shift_distance;
+    var hue_up = h + shift_distance;
+
+    if(shift_down) {
+      h = i < huepoint ? hue_up : hue_down;
+    } else {
+      h = i < huepoint ? hue_down : hue_up;
     }
-    box = box[1]; // grab the actual element from the DOM list
-    box.style.backgroundColor = hex_random.hex();
-  });
-  // Populate the inputs
-  hex_input.value = hex_random;
-  hue_input.value = 10;
-  val_input.value = 10;
-  intensity.checked = true;
 
-  makePalettes();
-})();
+    var hsv = chroma(h, s, v, 'hsv');
+    var hex = hsv.hex();
+
+    return hex;
+  });
+}

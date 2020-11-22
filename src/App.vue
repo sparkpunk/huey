@@ -1,8 +1,10 @@
 <template>
-  <Sidebar :colors="colors"
-    :source="source" />
-  <Content
-    :source="source"
+  <sidebar :hex="hex"
+    :hues="hues"
+    :tints="tints"
+    :scale="scale"
+    :colors="colors" />
+  <workspace :palette="palette"
     class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8" />
 </template>
 
@@ -11,51 +13,60 @@
 import chroma from 'chroma-js';
 // COMPONENTS
 import Sidebar from './Sidebar';
-import Content from './Content';
+import Workspace from './Workspace';
+// SCRIPTS
+import colorWheel from './scripts/palette';
 
 export default {
   name: "App",
   components: {
     Sidebar,
-    Content,
+    Workspace
   },
   data() {
     return {
-      colors: colors,
-      source: {
-        hex: colors[3],
-        hues: 10,
-        tints: 10,
-        scale: [
-          {
-            name: "Brightness",
-            value: 'brightness',
-            checked: true,
-          },
-          {
-            name: "Intensity",
-            value: 'intensity',
-            checked: false,
-          },
-          {
-            name: "Luminosity",
-            value: 'luminosity',
-            checked: false,
-          },
-        ],
-      },
+      colors: helix,
+      hex: helix[3],
+      hues: hues,
+      tints: tints,
+      scale: [
+        {
+          name: "Intensity",
+          value: 'intensity',
+          checked: true,
+        },
+        {
+          name: "Lightness",
+          value: 'lightness',
+          checked: false,
+        },
+        {
+          name: "Luminosity",
+          value: 'lumi',
+          checked: false,
+        },
+      ],
+      palette: palette
     };
   },
   methods: {
+    updateWheel() {
+      var { hex, hues, tints, scale } = this;
+      var checked = scale.filter(i => i.checked == true)[0];
+      var { value } = checked;
+      this.palette = colorWheel(hex, hues, tints, value);
+    },
     handleInput(obj) {
       var { name, value } = obj;
-      this.source[name] = value;
+      this[name] = value;
+      this.updateWheel();
     },
     handleRadio(e) {
-      var { scale } = this.source;
       var { value } = e.target;
+      var scale = this.scale;
       scale.forEach(i => i.checked = i.value == value ? true : false)
-      this.source.scale = scale;
+      this.scale = scale;
+      this.updateWheel();
     }
   },
   provide() {
@@ -67,11 +78,15 @@ export default {
 };
 // Get random colors
 const degree = Math.floor(Math.random() * 360) + 1
-const colors = chroma.cubehelix()
+const helix = chroma.cubehelix()
   .start(degree)
-  .rotations(1/3)
-  .hue([0.8, 1])
-  .lightness([0.9, 0.5])
+  .rotations(1/2)
+  .hue([1, 1])
+  .lightness([0.8, 0.6])
   .scale()
   .colors(6);
+
+var hues = 10;
+var tints = 10;
+var palette = colorWheel(helix[3], hues, tints, 'intensity');
 </script>

@@ -14,17 +14,17 @@
       <ColorInput name="hex"
         label="Starting Hex"
         type="text"
-        :value="source.hex" />
+        :value="hex" />
       <ColorInput name="hues"
         label="Hue Families"
         type="number"
-        :value="source.hues" />
+        :value="hues" />
       <ColorInput name="tints"
         label="Tints &amp; Shades"
         type="number"
-        :value="source.tints" />
+        :value="tints" />
       <label class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</label>
-      <ColorRadio v-for="item in source.scale"
+      <ColorRadio v-for="item in scale"
         group="scale"
         :id="item.value"
         :key="item.value"
@@ -54,27 +54,22 @@ export default {
       type: Object,
       required: true,
     },
-    source: {
-      hex: {
-        type: String,
-        required: true,
-      },
-      hues: {
-        type: String,
-        required: true,
-      },
-      tints: {
-        type: String,
-        required: true,
-      },
-      scale: {
-        type: Object,
-        required: true,
-      },
+    hex: {
+      type: String,
+      required: true,
+    },
+    hues: {
+      type: Number,
+      required: true,
+    },
+    tints: {
+      type: Number,
+      required: true,
+    },
+    scale: {
+      type: Object,
+      required: true,
     },
   },
-  methods: {
-
-  }
 };
 </script>

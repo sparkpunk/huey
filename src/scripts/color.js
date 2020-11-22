@@ -1,7 +1,7 @@
 // MODULES
 import chroma from 'chroma-js';
 
-export class Color {
+export default class Color {
 
   constructor(c) {
     this.hex = chroma(c).hex();

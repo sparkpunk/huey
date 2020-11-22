@@ -43,7 +43,9 @@ export default {
   methods: {
     validate(e) {
       var is_valid = false;
-      var { name, value } = e.target;
+      var { name, value, type } = e.target;
+
+      value = type === "number" ? parseInt(value) : value;
 
       if(name === "hex") {
         if(value[0] != "#") value = `#${value}`;
