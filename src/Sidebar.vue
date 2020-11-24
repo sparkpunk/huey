@@ -18,10 +18,14 @@
       <ColorInput name="hues"
         label="Hue Families"
         type="number"
+        min="1"
+        max="24"
         :value="hues" />
       <ColorInput name="tints"
         label="Tints &amp; Shades"
         type="number"
+        min="1"
+        max="24"
         :value="tints" />
       <label class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</label>
       <ColorRadio v-for="item in scale"

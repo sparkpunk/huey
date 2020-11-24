@@ -27,7 +27,7 @@ export default function colorWheel(color, hues, tints, scale) {
     // var local_lumi = chroma(local_color).luminance(lumi).hex()
 
     return local_color
-  });
+  }).sort((a, b) => chroma(a).get('hsl.h') - chroma(b).get('hsl.h'));
 
   return makePalette(arr, tints, scale)
 }
@@ -55,21 +55,23 @@ function makePalette(color_wheel, tints, scale) {
     }
 
     // We pass #fff because colors lose saturation as they get lighter
-    // var white = chroma("#fff").set('hsl.l', 0.975).set('hsl.s', .025).hex();
-    var white = chroma("#fff").hex();
+    var white = chroma(color).set('hsl.l', 0.99).hex();
 
     // If we pass plain ol' black, we get desaturated darks :( No bueno!
-    var black = chroma("#000").set('hsl.l', 0.025).set('hsl.s', 1).hex();
+    var black = chroma(color).set('hsl.l', 0.01).set('hsl.s', 0.99).hex();
 
     // var black = chroma(color).set(mode, multiplier).set('hsv.v', 0.1);
 
     // Set scale parameters. Also use domain weights to ensure proper color placement,
     // otherwise ${color} will always be in the middle, even if it's already very light or dark
     var scale_colors = [white, color, black];
-    var scale_domains = [0, (1 - scale_value) / (1 + scale_value), 1];
+    var scale_domains = [0, 1 - scale_value, 1];
 
     // Make our scale with more than we need (will always lead with pure white)
-    var color_scale = chroma.scale(scale_colors).domain(scale_domains).colors(tints * 2 + 1);
+    var color_scale = chroma.scale(scale_colors)
+      .mode('lch')
+      .domain(scale_domains)
+      .colors(tints * 2 + 1);
 
     // Shrink our scale colors, which will remove pure white at the beginning of each one
     color_scale = color_scale.filter((hex, i) => i % 2 != 0 );
@@ -144,8 +146,10 @@ function hueShift(color_scale, huepoint, shift_down) {
     // var j = h;
 
     var distance = Math.abs(i - huepoint);
-    var multiplier = h / 180;
+    var multiplier = h / 60;
     var shift_distance = distance * multiplier;
+
+    console.log(distance, h, multiplier)
 
 
     var hue_down = h - shift_distance;

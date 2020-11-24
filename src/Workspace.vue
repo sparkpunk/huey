@@ -1,9 +1,10 @@
 <template>
   <div class="absolute inset-0 w-auto ml-64 overflow-y-scroll p-10">
     <div class="flex w-full h-full">
-      <div v-for="hue in palette"
+      <div v-for="(hue, index) in palette"
       :key="hue"
       class="flex flex-col h-full mr-2">
+        <p class="absolute -mt-4 text-xs">{{ index }}</p>
         <swatch-box v-for="color in hue"
         :key="color"
         :color="color"
