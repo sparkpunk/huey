@@ -15,7 +15,7 @@ import chroma from 'chroma-js';
 import Sidebar from './Sidebar';
 import Workspace from './Workspace';
 // SCRIPTS
-import colorWheel from './scripts/palette';
+import makePalette from './scripts/palette';
 
 export default {
   name: "App",
@@ -25,48 +25,30 @@ export default {
   },
   data() {
     return {
-      colors: helix,
-      hex: helix[3],
+      colors: colors,
+      hex: colors[1], // helix[3],
       hues: hues,
       tints: tints,
-      scale: [
-        {
-          name: "Intensity",
-          value: 'intensity',
-          checked: true,
-        },
-        {
-          name: "Lightness",
-          value: 'lightness',
-          checked: false,
-        },
-        {
-          name: "Luminosity",
-          value: 'lumi',
-          checked: false,
-        },
-      ],
-      palette: palette
+      scale: scale,
+      palette: makePalette(colors[1], hues, tints, value)
     };
   },
   methods: {
-    updateWheel() {
+    updatePalette() {
       var { hex, hues, tints, scale } = this;
       var checked = scale.filter(i => i.checked == true)[0];
       var { value } = checked;
-      this.palette = colorWheel(hex, hues, tints, value);
+      this.palette = makePalette(hex, hues, tints, value);
     },
     handleInput(obj) {
       var { name, value } = obj;
       this[name] = value;
-      this.updateWheel();
+      this.updatePalette();
     },
     handleRadio(e) {
       var { value } = e.target;
-      var scale = this.scale;
-      scale.forEach(i => i.checked = i.value == value ? true : false)
-      this.scale = scale;
-      this.updateWheel();
+      this.scale.forEach(i => i.checked = i.value == value ? true : false)
+      this.updatePalette();
     }
   },
   provide() {
@@ -77,16 +59,45 @@ export default {
   }
 };
 // Get random colors
-const degree = Math.floor(Math.random() * 360) + 1
-const helix = chroma.cubehelix()
-  .start(degree)
-  .rotations(1/2)
-  .hue([1, 1])
-  .lightness([0.8, 0.6])
-  .scale()
-  .colors(6);
+const random = chroma.random();
+const color_1 = chroma(random).set('hsl.l', 0.9)
+const color_2 = chroma(random).set('hsl.l', 0.6)
+const color_3 = chroma(random).set('hsl.l', 0.3)
+const colors = [ color_1, color_2, color_3 ];
 
 var hues = 10;
 var tints = 10;
-var palette = colorWheel(helix[3], hues, tints, 'intensity');
+var scale = [
+  {
+    name: "Default",
+    value: 'lrgb',
+    checked: false,
+  },
+  {
+    name: "Intensity",
+    value: 'hsi',
+    checked: false,
+  },
+  {
+    name: "LAB",
+    value: 'lab',
+    checked: false,
+  },
+  {
+    name: "Luminance",
+    value: 'hcl',
+    checked: true,
+  },
+  {
+    name: "Lightness",
+    value: 'hsl',
+    checked: false,
+  },
+  {
+    name: "Value",
+    value: 'hsv',
+    checked: false,
+  },
+];
+var { value } = scale.filter(i => i.checked == true)[0];
 </script>

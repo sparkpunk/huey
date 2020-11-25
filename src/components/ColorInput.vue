@@ -9,6 +9,8 @@
       :name="name"
       :type="type"
       :value="value"
+      min="1"
+      max="24"
       @change="validate"
       class="w-full h-10 py-2 pr-4 pl-4 text-gray-600 bg-transparent border border-gray-300 leading-normal transition-colors duration-100 ease-in-out rounded-lg focus:outline-none select-none truncate focus:bg-white focus:shadow-inner focus:border-gray-400"
       :class="{'border-red-400': error}" />
@@ -33,6 +35,14 @@ export default {
     },
     value: {
       required: true,
+    },
+    min: {
+      type: Number,
+      required: false,
+    },
+    max: {
+      type: Number,
+      required: false,
     },
   },
   data() {

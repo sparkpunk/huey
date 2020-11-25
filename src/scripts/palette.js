@@ -1,169 +1,94 @@
 // MODULES and IMPORTS
 import chroma from 'chroma-js';
+import * as names from './names';
 import Color from './color';
-import * as color_names from './names';
 
 // MAIN FUNCTION
-export default function colorWheel(color, hues, tints, scale) {
-  // set space between each hue family
-  var degree_step = 360 / hues;
-  // Chroma-fy the original hex to get color makeup
-  color = new Color(color);
+export default function makePalette(color, hues, tints, mode) {
+  var colors = buildColorWheel(color, hues, mode);
+  var obj = {};
+  colors.forEach(c => {
+    const color = new Color(c);
+    const hue_arr = color.getHue(mode);
+    const name = getColorName(hue_arr[1])
+    const scale = buildColorScale(color, mode, tints);
 
-  var { hue, saturation, lightness } = color;
-
-  var arr = Array.from({length: hues}).map((n, i) => {
-    // Always return the original brand color
-    if(i == 0) return color.hex;
-
-    var local_hue = hue;
-    // Step around the color wheel at regular intervals
-    if(i != 0) {
-      local_hue = hue + (degree_step * i);
-      local_hue = local_hue < 360 ? local_hue : local_hue - 360;
-    }
-
-    var local_color = chroma(local_hue, saturation, lightness, 'hsl').hex();
-    // var local_lumi = chroma(local_color).luminance(lumi).hex()
-
-    return local_color
-  }).sort((a, b) => chroma(a).get('hsl.h') - chroma(b).get('hsl.h'));
-
-  return makePalette(arr, tints, scale)
+    obj[name] = scale;
+  })
+  return obj
 }
 
-function makePalette(color_wheel, tints, scale) {
+function buildColorWheel(c, num, mode) {
+  var color = new Color(c);
+  var hue = color.getHue(mode);
 
-  var obj = {};
-  var huepoint;
-
-  color_wheel.map(color => {
-
-    var shift_down;
-
-    // Analyze the input color to access color makeup
-    var Local_Color = new Color(color);
-    var h = Local_Color.hue;
-    var color_name = getColorName(h);
-    var scale_value = Local_Color[scale];
-
-
-    if ((h > 0 && h <= 60) || (h > 120 && h <= 180) || (h > 240 && h <= 300)) {
-      shift_down = true;
-    } else {
-      shift_down = false;
+  var wheel = [];
+  for(var i = 0; i < num; i++) {
+    var spokes = 360 / num;
+    var current = spokes * i;
+    var new_hue = hue[1] + current;
+    if(new_hue >= 360) {
+      new_hue -= 360;
     }
+    var new_color = chroma(color.hex).set(hue[0] + ".h", new_hue);
+    wheel.push(chroma(new_color).hex());
+  }
+  return wheel;
+}
 
-    // We pass #fff because colors lose saturation as they get lighter
-    var white = chroma(color).set('hsl.l', 0.99).hex();
+function buildColorScale(color, mode, length) {
+  var white, black, domain;
+  if(mode === "hsi") {
+    white = chroma.hsi(color.hsi_h, 0.1, 0.99).hex();
+    black = chroma.hsi(color.hsi_h, 0.99, 0.1).hex();
+    domain = [ 0, color.hsi_i, 1 ];
+  } else if(mode === "hsl") {
+    white = chroma.hsi(color.hsl_h, 0.08, 0.99).hex();
+    black = chroma.hsi(color.hsl_h, 0.99, 0.08).hex();
+    domain = [ 0, color.hsl_l, 1 ];
+  } else if(mode === "hcl") {
+    white = chroma.hcl(color.hcl_h, 10, 95).hex();
+    black = chroma.hcl(color.hcl_h, 50, 5).hex();
+    domain = [ 0, color.hcl_l, 100 ];
+  } else if(mode === "hsv") {
+    white = chroma.hcl(color.hsv_h, 10, 95).hex();
+    black = chroma.hcl(color.hsv_h, 50, 5).hex();
+    domain = [ 0, color.hsv_v, 1 ];
+  } else if(mode === "lab") {
+    white = chroma.hcl(color.hsv_h, 10, 95).hex();
+    black = chroma.hcl(color.hsv_h, 50, 5).hex();
+    domain = [ 0, color.hsv_v, 1 ];
+  } else if(mode === "lrgb") {
+    white = chroma.hcl(color.hsv_h, 10, 95).hex();
+    black = chroma.hcl(color.hsv_h, 50, 5).hex();
+    domain = [ 0, color.hsv_v, 1 ];
+  }
 
-    // If we pass plain ol' black, we get desaturated darks :( No bueno!
-    var black = chroma(color).set('hsl.l', 0.01).set('hsl.s', 0.99).hex();
+  var color_scale = chroma.scale([white, color.hex, black])
+    .domain(domain)
+    .correctLightness()
+    .gamma(0.5)
+    .mode(mode)
+    .colors(length);
 
-    // var black = chroma(color).set(mode, multiplier).set('hsv.v', 0.1);
-
-    // Set scale parameters. Also use domain weights to ensure proper color placement,
-    // otherwise ${color} will always be in the middle, even if it's already very light or dark
-    var scale_colors = [white, color, black];
-    var scale_domains = [0, 1 - scale_value, 1];
-
-    // Make our scale with more than we need (will always lead with pure white)
-    var color_scale = chroma.scale(scale_colors)
-      .mode('lch')
-      .domain(scale_domains)
-      .colors(tints * 2 + 1);
-
-    // Shrink our scale colors, which will remove pure white at the beginning of each one
-    color_scale = color_scale.filter((hex, i) => i % 2 != 0 );
-
-    // If our original ${color} isn't included, find where it should go and replace it
-    if(color_scale.indexOf(color) == -1) {
-      huepoint = getClosest(scale_value, color_scale, scale);
-      huepoint = huepoint.index;
-    } else {
-      huepoint = color_scale.indexOf(color);
-    }
-    color_scale[huepoint] = color;
-
-    // Depending on where ${color}'s hue is, we need to shift it towards or away from luminosity "buckets"
-    color_scale = hueShift(color_scale, huepoint, shift_down);
-
-    // Populate
-    obj[color_name] = color_scale
-
-  });
-  // Ding! Pizza's ready
-  return obj;
+  return color_scale;
 }
 
 function getColorName(hue) {
-  var hue_fixed = hue.toFixed(3)
-  var current = 0
-  var arr = Object.entries(color_names);
+  var current = 0;
+  var arr = Object.entries(names);
 
   for(var i = 0; i < arr.length; i++) {
     var defender = current;
     var challenger = arr[i][1];
 
-    if(Math.abs(defender - hue_fixed) > Math.abs(challenger - hue_fixed)) {
+    if(Math.abs(defender - hue) > Math.abs(challenger - hue)) {
       current = challenger;
     }
   }
-
-  return getKeyByValue(color_names, current)
-
+  return getKeyByValue(names, current);
 }
 
-function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
-}
-
-
-// This looks for the item in an array with a value closest to ${num}
-function getClosest(num, arr, arg) {
-  // Set the current variable
-  var current = { index: 0, color: "#ffffff" };
-  // Loop around the array
-  for(var i = 0; i < arr.length; i++) {
-    var defender = new Color(current.color)[arg];
-    var challenger = new Color(arr[i])[arg];
-    if(Math.abs(num - challenger) < Math.abs(num - defender)) {
-      current = { index: i, color: arr[i] };
-    }
-  }
-  return current;
-}
-
-
-// Hues shift as their luminosity darkens
-function hueShift(color_scale, huepoint, shift_down) {
-  return color_scale.map((color, i) => {
-    var c = chroma(color);
-
-    var h = c.get('hsv.h');
-    var s = c.get('hsv.s');
-    var v = c.get('hsv.v');
-    // var j = h;
-
-    var distance = Math.abs(i - huepoint);
-    var multiplier = h / 60;
-    var shift_distance = distance * multiplier;
-
-    console.log(distance, h, multiplier)
-
-
-    var hue_down = h - shift_distance;
-    var hue_up = h + shift_distance;
-
-    if(shift_down) {
-      h = i < huepoint ? hue_up : hue_down;
-    } else {
-      h = i < huepoint ? hue_down : hue_up;
-    }
-
-    var hsv = chroma(h, s, v, 'hsv');
-    var hex = hsv.hex();
-
-    return hex;
-  });
+function getKeyByValue(obj, val) {
+  return Object.keys(obj).find(key => obj[key] === val);
 }

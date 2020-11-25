@@ -1,13 +1,14 @@
 <template>
   <div class="absolute inset-0 w-auto ml-64 overflow-y-scroll p-10">
-    <div class="flex w-full h-full">
-      <div v-for="(hue, index) in palette"
-      :key="hue"
-      class="flex flex-col h-full mr-2">
-        <p class="absolute -mt-4 text-xs">{{ index }}</p>
-        <swatch-box v-for="color in hue"
+    <div class="flex flex-col w-full h-full">
+      <div v-for="hue in Object.entries(palette)"
+      :key="hue[0]"
+      class="flex w-full h-full">
+        <p class="w-32 mr-2 text-xs font-semibold uppercase text-right text-gray-200">{{ hue[0] }}</p>
+        <swatch-box v-for="(color, index) in hue[1]"
         :key="color"
         :color="color"
+        :ind="index"
         class="w-16 h-16" />
       </div>
     </div>

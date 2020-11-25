@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-10 text-gray-800 border-r border-gray-100">
+  <div class="flex flex-col absolute inset-y-0 left-0 w-64 overflow-y-scroll p-8 text-gray-800 border-r border-gray-100">
     <form @submit.prevent="">
       <div class="mb-12">
         <div class="flex">
@@ -12,22 +12,18 @@
         <p class="">Light to dark palettes, <br /> across the rainbow.</p>
       </div>
       <ColorInput name="hex"
-        label="Starting Hex"
+        label="Anchor (hex)"
         type="text"
         :value="hex" />
       <ColorInput name="hues"
         label="Hue Families"
         type="number"
-        min="1"
-        max="24"
         :value="hues" />
       <ColorInput name="tints"
         label="Tints &amp; Shades"
         type="number"
-        min="1"
-        max="24"
         :value="tints" />
-      <label class="mb-2 ml-px text-xs uppercase font-semibold">Scale by</label>
+      <label class="mb-2 ml-px text-xs uppercase font-semibold">Smoothing</label>
       <ColorRadio v-for="item in scale"
         group="scale"
         :id="item.value"

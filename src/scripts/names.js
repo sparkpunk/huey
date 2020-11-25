@@ -1,6 +1,6 @@
 // Names taken from http://www.procato.com/rgb+index/
 // and https://en.wikipedia.org/wiki/Hue
-var color_names = {
+module.exports = {
   "scarlet": 7.500,
   "vermillion": 15.00,
   "tangelo": 22.50,
@@ -50,5 +50,3 @@ var color_names = {
   "amaranth": 352.5,
   "red": 360.0,
 }
-
-module.exports = color_names;
