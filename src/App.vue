@@ -5,7 +5,7 @@
     :scale="scale"
     :colors="colors" />
   <workspace :palette="palette"
-    class="relative flex flex-col w-auto h-screen overflow-scroll ml-64 p-8" />
+    class="relative flex flex-col w-auto h-screen overflow-scroll ml-56 p-8" />
 </template>
 
 <script>

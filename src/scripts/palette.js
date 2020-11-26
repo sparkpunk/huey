@@ -42,39 +42,33 @@ function buildColorWheel(c, num, mode) {
 }
 
 function buildColorScale(color, mode, length) {
-  var white, black, domain;
+  var domain;
+  var white = chroma(254.5, 254.5, 254.5, 'rgb');
+  var black = chroma('black');
   if(mode === "hsi") {
-    white = chroma.hsi(color.hsi_h, 0.1, 0.99).hex();
-    black = chroma.hsi(color.hsi_h, 0.99, 0.1).hex();
     domain = [ 0, color.hsi_i, 1 ];
   } else if(mode === "hsl") {
-    white = chroma.hsi(color.hsl_h, 0.08, 0.99).hex();
-    black = chroma.hsi(color.hsl_h, 0.99, 0.08).hex();
     domain = [ 0, color.hsl_l, 1 ];
   } else if(mode === "hcl") {
-    white = chroma.hcl(color.hcl_h, 10, 95).hex();
-    black = chroma.hcl(color.hcl_h, 50, 5).hex();
     domain = [ 0, color.hcl_l, 100 ];
   } else if(mode === "hsv") {
-    white = chroma.hcl(color.hsv_h, 10, 95).hex();
-    black = chroma.hcl(color.hsv_h, 50, 5).hex();
     domain = [ 0, color.hsv_v, 1 ];
   } else if(mode === "lab") {
-    white = chroma.hcl(color.hsv_h, 10, 95).hex();
-    black = chroma.hcl(color.hsv_h, 50, 5).hex();
     domain = [ 0, color.hsv_v, 1 ];
   } else if(mode === "lrgb") {
-    white = chroma.hcl(color.hsv_h, 10, 95).hex();
-    black = chroma.hcl(color.hsv_h, 50, 5).hex();
     domain = [ 0, color.hsv_v, 1 ];
   }
+
+  console.log(black);
 
   var color_scale = chroma.scale([white, color.hex, black])
     .domain(domain)
     .correctLightness()
-    .gamma(0.5)
     .mode(mode)
-    .colors(length);
+    .colors(length + 2);
+
+  color_scale.pop();
+  color_scale.shift();
 
   return color_scale;
 }
