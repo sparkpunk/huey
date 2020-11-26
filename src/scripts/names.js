@@ -1,6 +1,7 @@
 // Names taken from http://www.procato.com/rgb+index/
 // and https://en.wikipedia.org/wiki/Hue
 module.exports = {
+  "red": 0.000,
   "scarlet": 7.500,
   "vermillion": 15.00,
   "tangelo": 22.50,
@@ -48,5 +49,5 @@ module.exports = {
   "raspberry": 337.5,
   "crimson": 345.0,
   "amaranth": 352.5,
-  "red": 360.0,
+  "sanguine": 360.0,
 }

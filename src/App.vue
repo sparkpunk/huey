@@ -69,9 +69,9 @@ export default {
 
 function randomColors() {
   var random = chroma.random();
-  var color_1 = chroma(random).set('hsl.l', 0.9)
-  var color_2 = chroma(random).set('hsl.l', 0.6)
-  var color_3 = chroma(random).set('hsl.l', 0.3)
+  var color_1 = chroma(random).set('hsl.l', 0.9).hex()
+  var color_2 = chroma(random).set('hsl.l', 0.6).hex()
+  var color_3 = chroma(random).set('hsl.l', 0.3).hex()
   return [ color_1, color_2, color_3 ];
 }
 

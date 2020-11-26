@@ -130,6 +130,11 @@ module.exports = {
         "10000": "10000ms",
        },
     },
+    rotate: {
+      '360': '360deg',
+      '540': '540deg',
+      '720': '720deg',
+    },
   },
   variants: [
     'responsive', 'group-hover', 'hover', 'disabled', 'focus', 'active', 'first', 'last'

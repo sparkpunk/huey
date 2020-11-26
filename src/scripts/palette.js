@@ -8,11 +8,15 @@ export default function makePalette(color, hues, tints, mode) {
   var colors = buildColorWheel(color, hues, mode);
   var obj = {};
   colors.forEach(c => {
-    const color = new Color(c);
-    const hue_arr = color.getHue(mode);
-    const name = getColorName(hue_arr[1])
-    const scale = buildColorScale(color, mode, tints);
+    var color = new Color(c);
+    var hue_arr = color.getHue(mode);
+    var name = getColorName(hue_arr[1])
+    var scale = buildColorScale(color, mode, tints);
 
+    if(obj[name] !== undefined) {
+      console.log(name)
+      name = name + "-2"
+    }
     obj[name] = scale;
   })
   return obj
