@@ -19,6 +19,7 @@ export default function makePalette(color, hues, tints, mode) {
 }
 
 function buildColorWheel(c, num, mode) {
+  // TOOD: LOSING 1 HUE ON LUMINANCE #91f939
   var color = new Color(c);
   var hue = color.getHue(mode);
 

@@ -1,5 +1,5 @@
 <template>
-  <sidebar :hex="hex"
+  <sidebar :color="color"
     :hues="hues"
     :tints="tints"
     :scale="scale"
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       colors: colors,
-      hex: colors[1], // helix[3],
+      color: colors[1], // helix[3],
       hues: hues,
       tints: tints,
       scale: scale,
@@ -35,10 +35,10 @@ export default {
   },
   methods: {
     updatePalette() {
-      var { hex, hues, tints, scale } = this;
+      var { color, hues, tints, scale } = this;
       var checked = scale.filter(i => i.checked == true)[0];
       var { value } = checked;
-      this.palette = makePalette(hex, hues, tints, value);
+      this.palette = makePalette(color, hues, tints, value);
     },
     handleInput(obj) {
       var { name, value } = obj;
@@ -49,22 +49,33 @@ export default {
       var { value } = e.target;
       this.scale.forEach(i => i.checked = i.value == value ? true : false)
       this.updatePalette();
+    },
+    rollTheDice() {
+      var colors = randomColors();
+      var color = colors[1];
+      this.colors = colors;
+      this.color = color;
+      this.updatePalette();
     }
   },
   provide() {
     return {
+      rollTheDice: this.rollTheDice,
       handleInput: this.handleInput,
       handleRadio: this.handleRadio,
     }
   }
 };
-// Get random colors
-const random = chroma.random();
-const color_1 = chroma(random).set('hsl.l', 0.9)
-const color_2 = chroma(random).set('hsl.l', 0.6)
-const color_3 = chroma(random).set('hsl.l', 0.3)
-const colors = [ color_1, color_2, color_3 ];
 
+function randomColors() {
+  var random = chroma.random();
+  var color_1 = chroma(random).set('hsl.l', 0.9)
+  var color_2 = chroma(random).set('hsl.l', 0.6)
+  var color_3 = chroma(random).set('hsl.l', 0.3)
+  return [ color_1, color_2, color_3 ];
+}
+
+var colors = randomColors();
 var hues = 10;
 var tints = 10;
 var scale = [

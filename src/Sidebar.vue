@@ -10,11 +10,15 @@
         </div>
         <h1 class="my-4 font-display text-5xl text-gray-800">huey</h1>
         <p class="">Light to dark palettes, <br /> across the rainbow.</p>
+        <button @click="rollTheDice"
+        :style="{background: color}"
+        class="py-1 px-2 text-xs font-bold text-white rounded"
+        >Roll the dice</button>
       </div>
-      <ColorInput name="hex"
+      <ColorInput name="color"
         label="Anchor (hex)"
         type="text"
-        :value="hex" />
+        :value="color" />
       <ColorInput name="hues"
         label="Hue Families"
         type="number"
@@ -44,6 +48,7 @@ import ColorRadio from './components/ColorRadio';
 
 export default {
   name: "Sidebar",
+  inject: [ 'rollTheDice' ],
   components: {
     ColorBox,
     ColorInput,
@@ -54,7 +59,7 @@ export default {
       type: Object,
       required: true,
     },
-    hex: {
+    color: {
       type: String,
       required: true,
     },
