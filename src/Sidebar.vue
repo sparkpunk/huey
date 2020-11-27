@@ -40,7 +40,14 @@
         :value="item.value"
         :checked="item.checked" />
     </form>
-    <div class="group mt-auto text-xs text-gray-400">Made with <span class="relative"><span class="absolute group-hover:animate-ping w-3 h-3 -mt-px duration-500">♥️</span>♥️</span> by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
+    <div class="group mt-auto text-xs text-gray-400">Made with 
+      <span class="relative group-hover:text-red-400">
+        <span class="absolute mt-px group-hover:animate-ping w-3 h-3 -mt-px duration-500">
+          ♥️
+        </span>
+        ♥️
+      </span>
+       by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
   </div>
 </template>
 

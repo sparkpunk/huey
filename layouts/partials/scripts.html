@@ -1,8 +1,0 @@
-
-{{ $chroma := resources.Get "js/chroma.js" | minify }}
-{{ $color := resources.Get "js/color.js" | minify }}
-{{ $scales := resources.Get "js/scales.js" | minify }}
-{{ $main := resources.Get "js/main.js" | minify }}
-
-{{ $bundle := slice $chroma $color $scales $main | resources.Concat "js/bundle.js" }}
-<script type="text/javascript" src="{{ $bundle.RelPermalink }}"></script>

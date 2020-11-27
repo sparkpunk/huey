@@ -10,13 +10,10 @@ export default function makePalette(color, hues, tints, mode) {
   colors.forEach(c => {
     var color = new Color(c);
     var hue_arr = color.getHue(mode);
-    var name = getColorName(hue_arr[1])
+    var hue_val = hue_arr[1];
+    var name = getColorName(hue_val);
     var scale = buildColorScale(color, mode, tints);
 
-    if(obj[name] !== undefined) {
-      console.log(name)
-      name = name + "-2"
-    }
     obj[name] = scale;
   })
   return obj
@@ -46,20 +43,22 @@ function buildColorScale(color, mode, length) {
   var white = chroma(254.5, 254.5, 254.5, 'rgb');
   var black = chroma('black');
   if(mode === "hsi") {
+    black = chroma(color.hsi_h, 100, .01, 'hsv');
     domain = [ 0, color.hsi_i, 1 ];
   } else if(mode === "hsl") {
+    white = chroma(color.hsl_h, color.hsl_s, 1, 'hsl');
     domain = [ 0, color.hsl_l, 1 ];
   } else if(mode === "hcl") {
+    white = chroma(color.hcl_h, color.hcl_c / 8, 100, 'hcl');
     domain = [ 0, color.hcl_l, 100 ];
   } else if(mode === "hsv") {
+    black = chroma(color.hsv_h, 100, .02, 'hsv');
     domain = [ 0, color.hsv_v, 1 ];
   } else if(mode === "lab") {
     domain = [ 0, color.hsv_v, 1 ];
   } else if(mode === "lrgb") {
     domain = [ 0, color.hsv_v, 1 ];
   }
-
-  console.log(black);
 
   var color_scale = chroma.scale([white, color.hex, black])
     .domain(domain)

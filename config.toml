@@ -1,6 +1,0 @@
-baseURL = "https://huey.design"
-languageCode = "en-us"
-title = "Huey Color Palettes"
-[params]
-  author = "sparkpunk"
-  description = "Rapid color palettes across the rainbow. Huey is great for instantly generating color palettes for use with CSS variables, SCSS, and Tailwind."
