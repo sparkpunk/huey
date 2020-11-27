@@ -6,41 +6,48 @@
     :colors="colors" />
   <workspace :palette="palette"
     :showModal="showModal"
-    class="relative flex flex-col w-auto h-screen overflow-scroll ml-56 p-8" />
-  <div v-if="showModal" class="fixed inset-0 flex flex-col items-center justify-center p-0">
+    class="absolute flex flex-col w-auto h-full overflow-scroll ml-56 p-8" />
+  <!-- TODO: Componentize Modal and WCAG Table -->
+  <div v-if="showModal" class="fixed inset-0 flex flex-col items-center justify-center p-8">
     <div class="absolute inset-0 bg-gray-900 opacity-90"></div>
-    <div class="relative z-10 w-full h-full p-16 bg-white rounded-xl shadow-xl">
+    <div class="relative z-10 overflow-y-auto w-full h-auto p-12 bg-white rounded-xl shadow-xl">
       <div class="absolute top-0 right-0 w-16 h-16">
-        <button @click="showModal = false"
-          class="flex items-center justify-center w-full h-full text-xs font-semibold text-gray-700">Close</button>
+        <button @click="{showModal = false; showDetails = false}"
+          class="flex items-center justify-center w-full h-full overflow-y-auto text-lg font-semibold text-gray-500">✕</button>
       </div>
-      <div class="flex flex-col w-full h-full">
+      <div class="flex items-center mb-8">
+        <h1 class="mr-16 mb-2 text-2xl font-semibold text-gray-900">WCAG Contrast Check</h1>
+        <label class="flex align-items mr-1 text-xs font-semibold" for="showDetails">Show text/background values</label>
+        <input class="w-4 h-4 mt-px" id="showDetails" type="checkbox" @change="showDetails = !showDetails" />
+      </div>
+      <div class="flex flex-col w-full h-auto">
         <div v-for="(item, c) in contrast"
           :key="item"
-          class="flex-grow-1 w-full h-full text-xs"
+          class="flex-grow-1 w-full h-16 text-xs border-b last:border-b-0 border-white"
           :style="{background: item.background}">
           <div class="flex flex-row-reverse h-full">
             <div v-for="(item, i) in contrast" :key="i"
-            class="relative h-full p-1 text-2xs font-semibold"
+            class="relative p-1 text-3xs font-semibold border-r first:border-r-0 border-px border-white"
             :style="{
               width: `${100 / (contrast.length)}%`,
               color: item.color
               }">
-              <p class="">{{ item.color }} on {{ contrast[c].background }}</p>
-              <p class="">
-                <span>{{ getContrast(item.color, contrast[c].background).contrast }}</span>
-                <span v-if="getContrast(item.color, contrast[c].background).label != undefined"> / {{ getContrast(item.color, contrast[c].background).label }}</span>
-              </p>
+              <div class="absolute top-0 left-0 m-1 py-px px-1"
+                :style="{color: item.color, background: contrast[c].background}">
+                <p>{{ getContrast(item.color, contrast[c].background).contrast }}</p>
+              </div>
+              <div v-if="getContrast(item.color, contrast[c].background).label != undefined"
+                class="absolute top-0 right-0 m-1 py-px px-1 rounded-sm shadow"
+                :style="{color: contrast[c].background, background: item.color}">
+                <p class="">{{ getContrast(item.color, contrast[c].background).label }}</p>
+              </div>
+              <div v-show="showDetails"
+                class="absolute bottom-0 m-1 font-normal">
+                <p>T: {{ item.color }}</p>
+                <p>B: {{ contrast[c].background }}</p>
+              </div>
             </div>
           </div>
-          <!-- <div v-for="(item, i) in contrast"
-          :key="i"
-          class="flex items-end flex-grow-1 w-full h-full debug"
-          :style="{
-            color: item.color,
-            background: item.color != item.background}">
-            <span>{{ item.contrast }}</span>
-          </div> -->
         </div>
       </div>
     </div>
@@ -73,6 +80,7 @@ export default {
       palette: makePalette(colors[1], hues, tints, value),
       contrast: contrast,
       showModal: false,
+      showDetails: false,
     };
   },
   methods: {
