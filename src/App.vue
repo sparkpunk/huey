@@ -6,58 +6,17 @@
     :colors="colors" />
   <workspace :palette="palette"
     :showModal="showModal"
-    class="absolute flex flex-col w-auto h-full overflow-scroll ml-56 p-8" />
-  <!-- TODO: Componentize Modal and WCAG Table -->
-  <div v-if="showModal" class="fixed inset-0 flex flex-col items-center justify-center p-8">
-    <div class="absolute inset-0 bg-gray-900 opacity-90"></div>
-    <div class="relative z-10 overflow-y-auto w-full h-auto p-12 bg-white rounded-xl shadow-xl">
-      <div class="absolute top-0 right-0 w-16 h-16">
-        <button @click="{showModal = false; showDetails = false}"
-          class="flex items-center justify-center w-full h-full overflow-y-auto text-lg font-semibold text-gray-500">✕</button>
-      </div>
-      <div class="flex items-center mb-8">
-        <h1 class="mr-16 mb-2 text-2xl font-semibold text-gray-900">WCAG Contrast Check</h1>
-        <label class="flex align-items mr-1 text-xs font-semibold" for="showDetails">Show text/background values</label>
-        <input class="w-4 h-4 mt-px" id="showDetails" type="checkbox" @change="showDetails = !showDetails" />
-      </div>
-      <div class="flex flex-col w-full h-auto">
-        <div v-for="(item, c) in contrast"
-          :key="item"
-          class="flex-grow-1 w-full h-16 text-xs border-b last:border-b-0 border-white"
-          :style="{background: item.background}">
-          <div class="flex flex-row-reverse h-full">
-            <div v-for="(item, i) in contrast" :key="i"
-            class="relative p-1 text-3xs font-semibold border-r first:border-r-0 border-px border-white"
-            :style="{
-              width: `${100 / (contrast.length)}%`,
-              color: item.color
-              }">
-              <div class="absolute top-0 left-0 m-1 py-px px-1"
-                :style="{color: item.color, background: contrast[c].background}">
-                <p>{{ getContrast(item.color, contrast[c].background).contrast }}</p>
-              </div>
-              <div v-if="getContrast(item.color, contrast[c].background).label != undefined"
-                class="absolute top-0 right-0 m-1 py-px px-1 rounded-sm shadow"
-                :style="{color: contrast[c].background, background: item.color}">
-                <p class="">{{ getContrast(item.color, contrast[c].background).label }}</p>
-              </div>
-              <div v-show="showDetails"
-                class="absolute bottom-0 m-1 font-normal">
-                <p>T: {{ item.color }}</p>
-                <p>B: {{ contrast[c].background }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    class="absolute z-10 flex flex-col w-auto h-full ml-56 p-8" />
+  <modal v-if="showModal" 
+    :data="contrast"
+    :height="windowHeight"></modal>
 </template>
 
 <script>
 // MODULES
 import chroma from 'chroma-js';
 // COMPONENTS
+import Modal from './Modal';
 import Sidebar from './Sidebar';
 import Workspace from './Workspace';
 // SCRIPTS
@@ -67,6 +26,7 @@ import makeContrast from './scripts/contrast';
 export default {
   name: "App",
   components: {
+    Modal,
     Sidebar,
     Workspace
   },
@@ -80,21 +40,11 @@ export default {
       palette: makePalette(colors[1], hues, tints, value),
       contrast: contrast,
       showModal: false,
-      showDetails: false,
+      modalData: null,
+      windowHeight: 0,
     };
   },
   methods: {
-    getContrast(color_1, color_2) {
-      var label;
-      var contrast = chroma.contrast(color_1, color_2).toFixed(2);
-      if(contrast >= 3 && contrast < 4.5) label = "AA18";
-      if(contrast >= 4.5 && contrast < 7) label = "AA";
-      if(contrast >= 7) label = "AAA";
-      return {
-        label: label,
-        contrast: contrast,
-      }
-    },
     handleInput(obj) {
       var { name, value } = obj;
       this[name] = value;
@@ -112,9 +62,14 @@ export default {
       this.color = color;
       this.updatePalette();
     },
-    showContrast(hue) {
-      this.showModal = !this.showModal;
+    showContrast(hue, e) {
+      this.modalData = hue;
       this.contrast = makeContrast(hue);
+      this.windowHeight = (e.view.window.innerHeight / 16) + 'rem';
+      this.showModal = !this.showModal;
+    },
+    toggleModal() {
+      return this.showModal = !this.showModal;
     },
     updatePalette() {
       var { color, hues, tints, scale } = this;
@@ -129,8 +84,9 @@ export default {
       handleRadio: this.handleRadio,
       rollTheDice: this.rollTheDice,
       showContrast: this.showContrast,
+      toggleModal: this.toggleModal,
     }
-  }
+  },
 };
 
 function randomColors() {
@@ -179,13 +135,3 @@ var scale = [
 ];
 var { value } = scale.filter(i => i.checked == true)[0];
 </script>
-
-<style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.debug {
-  border: 1px solid red !important;
-}
-</style>

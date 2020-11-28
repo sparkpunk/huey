@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  name: 'color-radio',
   inject: ['handleRadio'],
   props: {
     'name': {

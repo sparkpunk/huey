@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  name: 'color-input',
   inject: ['handleInput'],
   props: {
     label: {
