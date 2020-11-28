@@ -1,7 +1,9 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 
-import './assets/css/styles.css';
+// REMINDER: ================================
+// STYLES ARE INSIDE A <style> TAG IN APP.VUE
+// ==========================================
 
 import Sidebar from './Sidebar.vue';
 import Workspace from './Workspace.vue';

@@ -179,3 +179,13 @@ var scale = [
 ];
 var { value } = scale.filter(i => i.checked == true)[0];
 </script>
+
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.debug {
+  border: 1px solid red !important;
+}
+</style>
