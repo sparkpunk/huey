@@ -38,7 +38,9 @@
         label="Tints &amp; Shades"
         type="number"
         :value="tints" />
-      <ColorSelect :options="scale" />
+      <ColorSelect name="scale"
+        label="Smoothing"
+        :options="scale" />
     </form>
     <div class="group mt-auto text-xs text-gray-400">Made with 
       <span class="relative group-hover:text-red-400">
