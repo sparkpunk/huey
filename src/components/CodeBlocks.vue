@@ -26,7 +26,7 @@
         <code>
           {
           <div v-for="(color, c) in content" :key="c">
-            &nbsp;&nbsp;{{ c }}: {
+            &nbsp;&nbsp;'{{ c }}': {
             <p v-for="(value, v) in color" :key="v">
               &nbsp;&nbsp;&nbsp;&nbsp;{{ getIndex(v) }}: {{ value }},
             </p>

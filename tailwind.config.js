@@ -146,9 +146,6 @@ module.exports = {
       '6xl': '4rem',
       '7xl': '5rem',
     },
-    rotate: {
-      '360': '360deg',
-    },
   },
   variants: [
     'responsive', 'group-hover', 'hover', 'disabled', 'focus', 'active', 'first', 'last'

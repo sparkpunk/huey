@@ -4,7 +4,8 @@
     :tints="tints"
     :scale="scale"
     :colors="colors" />
-  <workspace :palette="palette"
+  <workspace :color="color"
+    :palette="palette"
     :showModal="showModal" />
   <modal v-if="showModal"
     :name="modalName"
@@ -34,7 +35,7 @@ export default {
   data() {
     return {
       colors: colors,
-      color: colors[1], // helix[3],
+      color: colors[1],
       hues: hues,
       tints: tints,
       scale: scale,
@@ -65,7 +66,12 @@ export default {
     },
     handleRadio(e) {
       var { value } = e.target;
-      this.scale.forEach(i => i.checked = i.value == value ? true : false)
+      this.updateScale(value);
+      this.updatePalette();
+    },
+    handleSelect(e) {
+      var { value } = e.target;
+      this.updateScale(value);
       this.updatePalette();
     },
     rollTheDice() {
@@ -73,6 +79,8 @@ export default {
       var color = colors[1];
       this.colors = colors;
       this.color = color;
+      this.tints = randomNumber(12);
+      this.hues = randomNumber(12);
       this.updatePalette();
     },
     showContrast(hue, e) {
@@ -91,6 +99,9 @@ export default {
       var { value } = checked;
       this.palette = makePalette(color, hues, tints, value);
     },
+    updateScale(value) {
+      return this.scale.forEach(i => i.checked = i.value === value ? true : false);
+    },
   },
   computed: {
 
@@ -100,12 +111,17 @@ export default {
       getCode: this.getCode,
       handleInput: this.handleInput,
       handleRadio: this.handleRadio,
+      handleSelect: this.handleSelect,
       rollTheDice: this.rollTheDice,
       showContrast: this.showContrast,
       toggleModal: this.toggleModal,
     }
   },
 };
+
+function randomNumber(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
 function randomColors() {
   var random = chroma.random();
