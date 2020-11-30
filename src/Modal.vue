@@ -16,7 +16,7 @@
 
       <div class="absolute inset-0 top-24 overflow-auto">
         <code-blocks v-if="name === 'code'" :content="content"></code-blocks>
-        <contrast-table v-if="name === 'contrast'" :content="content"></contrast-table>
+        <contrast-table v-if="name === 'contrast'" :color="color" :content="content"></contrast-table>
       </div>
     </div>
   </div>
@@ -40,6 +40,10 @@ export default {
   props: {
     content: {
       type: Object,
+      required: true,
+    },
+    color: {
+      type: String,
       required: true,
     },
     name: {

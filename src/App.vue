@@ -8,6 +8,7 @@
     :palette="palette"
     :showModal="showModal" />
   <modal v-if="showModal"
+    :color="color"
     :name="modalName"
     :title="modalTitle"
     :content="modalData"
