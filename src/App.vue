@@ -5,10 +5,11 @@
     :scale="scale"
     :colors="colors" />
   <workspace :palette="palette"
-    :showModal="showModal"
-    class="absolute z-10 flex flex-col w-auto h-full ml-56 p-8" />
-  <modal v-if="showModal" 
-    :data="contrast"
+    :showModal="showModal" />
+  <modal v-if="showModal"
+    :name="modalName"
+    :title="modalTitle"
+    :content="modalData"
     :height="windowHeight"></modal>
 </template>
 
@@ -25,11 +26,11 @@ import makeContrast from './scripts/contrast';
 
 export default {
   name: "App",
-  components: {
+  components: [
     Modal,
     Sidebar,
     Workspace
-  },
+  ],
   data() {
     return {
       colors: colors,
@@ -41,10 +42,22 @@ export default {
       contrast: contrast,
       showModal: false,
       modalData: null,
+      modalName: '',
+      modalTitle: '',
       windowHeight: 0,
     };
   },
   methods: {
+    getCode(e) {
+      this.modalData = this.palette;
+      this.modalName = 'code';
+      this.modalTitle = 'Get Code';
+      this.windowHeight = this.getWindowHeight(e);
+      this.showModal = !this.showModal;
+    },
+    getWindowHeight(e) {
+      return (e.view.window.innerHeight / 16) + 'rem';
+    },
     handleInput(obj) {
       var { name, value } = obj;
       this[name] = value;
@@ -63,9 +76,10 @@ export default {
       this.updatePalette();
     },
     showContrast(hue, e) {
-      this.modalData = hue;
-      this.contrast = makeContrast(hue);
-      this.windowHeight = (e.view.window.innerHeight / 16) + 'rem';
+      this.modalData = makeContrast(hue);
+      this.modalName = 'contrast';
+      this.modalTitle = 'WCAG Contrast Chart';
+      this.windowHeight = this.getWindowHeight(e);
       this.showModal = !this.showModal;
     },
     toggleModal() {
@@ -78,8 +92,12 @@ export default {
       this.palette = makePalette(color, hues, tints, value);
     },
   },
+  computed: {
+
+  },
   provide() {
     return {
+      getCode: this.getCode,
       handleInput: this.handleInput,
       handleRadio: this.handleRadio,
       rollTheDice: this.rollTheDice,
@@ -98,7 +116,7 @@ function randomColors() {
 }
 
 var colors = randomColors();
-var contrast = [ "Hello", "Goodbye" ];
+var contrast = null;
 var hues = 8;
 var tints = 10;
 var scale = [

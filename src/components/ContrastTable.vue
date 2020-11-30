@@ -1,4 +1,8 @@
 <template>
+  <label class="flex items-center w-auto m-2 p-2 text-xs font-semibold rounded-lg" for="showDetails">
+    <span class="mr-1">Show text/background values</span>
+    <input class="w-4 h-4 mt-px border border-gray-500 checked:bg-blue-500 checked:border-blue-500 focus:outline-none rounded" id="showDetails" type="checkbox" @change="showDetails = !showDetails" />
+  </label>
   <table class="border-collapse">
     <thead class="bg-white border-b border-gray-100">
       <tr class="bg-white">
@@ -16,18 +20,18 @@
             </svg>
           </div>
         </th>
-        <th class="font-normal px-6 text-2xs text-gray-600 bg-gray-50" v-for="col in contrast.slice().reverse()" :key="col.contrast">
+        <th class="font-normal px-6 text-2xs text-gray-600 bg-gray-50" v-for="col in content.slice().reverse()" :key="col.contrast">
           {{ col.color }}
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="bg in contrast" :key="bg"
+      <tr v-for="bg in content" :key="bg"
         :style="{background: bg.background}">
         <td class="h-16 p-2 text-2xs text-right text-gray-600 bg-gray-50 border-r border-gray-100">
           {{ bg.background }}
         </td>
-        <td v-for="text in contrast.slice().reverse()" :key="text"
+        <td v-for="text in content.slice().reverse()" :key="text"
           class="relative text-3xs border-r border-b border-white"
           :style="{color: text.color}">
           <div v-if="getContrast(text.color, bg.background).label"
@@ -55,6 +59,12 @@ import chroma from 'chroma-js';
 
 export default {
   name: "contrast-table",
+  props: {
+    content: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       showDetails: false,

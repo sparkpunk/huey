@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col absolute inset-y-0 left-0 w-56 h-screen overflow-y-scroll p-8 text-gray-800 border-r border-gray-100">
+  <div class="fixed inset-y-0 left-0 flex flex-col w-56 h-screen overflow-y-scroll p-8 text-gray-800 border-r border-gray-100">
     <form @submit.prevent="">
       <div class="mb-4">
         <div class="flex">
