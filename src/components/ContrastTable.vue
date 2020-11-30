@@ -1,26 +1,24 @@
 <template>
-  <label class="flex items-center w-auto m-2 p-2 text-xs font-semibold rounded-lg" for="showDetails">
-    <span class="mr-1">Show text/background values</span>
-    <input class="w-4 h-4 mt-px border border-gray-500 checked:bg-blue-500 checked:border-blue-500 focus:outline-none rounded" id="showDetails" type="checkbox" @change="showDetails = !showDetails" />
-  </label>
-  <table class="border-collapse">
-    <thead class="bg-white border-b border-gray-100">
-      <tr class="bg-white">
-        <th class="font-normal bg-gray-50 p-2 text-xs text-gray-600">
-          <div class="flex items-center justify-end">
-            Text
-            <svg class="w-3 h-3 ml-2 fill-current" viewBox="0 0 13 9" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 4.5a.5.5 0 01.41-.492L.5 4h10.793L8.146.854A.5.5 0 018.09.216l.057-.07A.5.5 0 018.784.09l.07.057 4 4 .037.042.042.062.03.06.02.062.012.056L13 4.5l-.003.053-.014.075-.02.063-.052.093-.046.057-4.011 4.013a.5.5 0 01-.765-.638l.057-.07L11.293 5H.5a.5.5 0 01-.5-.5z" />
-            </svg>
-          </div>
-          <div class="flex items-center">
-            Background
-            <svg class="w-3 h-3 ml-2 fill-current" viewBox="0 0 9 13" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4.5 0a.5.5 0 01.492.41L5 .5v10.793l3.146-3.147a.5.5 0 01.638-.057l.07.057a.5.5 0 01.057.638l-.057.07-4 4-.042.037-.062.042-.06.03-.062.02-.056.012L4.5 13l-.053-.003-.075-.014-.063-.02-.093-.052-.057-.046L.146 8.854a.5.5 0 01.638-.765l.07.057L4 11.293V.5a.5.5 0 01.5-.5z" />
-            </svg>
-          </div>
+  <div class="absolute top-0 inset-x-0 overflow-hidden flex flex-col items-center mt-4 px-8">
+    <p class="font-semibold text-center text-gray-400">Use this chart to quickly reference WCAG contrast ratios<sup>
+      <a class="text-3xs font-bold" :href="contrastUrl">[1]</a>
+      </sup> between two colors.</p>
+    <label class="relative inline-flex items-center mt-4 py-2 px-4 text-xs font-semibold" for="showDetails">
+      <input class="appearance-none absolute inset-0 w-full h-full text-white bg-blue-500 focus:outline-none rounded-xl" id="showDetails" type="checkbox" @change="showDetails = !showDetails" />
+      <svg class="z-10 fill-current w-6 h-6 mr-2" viewBox="0 0 21 23" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.259.062a.5.5 0 01.389-.04l.093.04 10 5.5a.5.5 0 01.25.348L21 6v11a.5.5 0 01-.184.388l-.075.05-10 5.5a.5.5 0 01-.389.04l-.093-.04-10-5.5a.5.5 0 01-.25-.348L0 17V6a.5.5 0 01.184-.388l.075-.05 10-5.5zM10.5 1.07L1 6.295v10.409l9.5 5.225 9.5-5.226V6.296L10.5 1.07zm2 5.93a.5.5 0 01.242.063l.07.047 5 4a.5.5 0 01.068.715l-.068.065-5 4a.5.5 0 01-.228.103L12.5 16h-4a.5.5 0 01-.242-.063l-.07-.047-5-4a.5.5 0 01-.068-.715l.068-.065 5-4a.5.5 0 01.228-.103L8.5 7h4zm-.176 1H8.675L4.3 11.5 8.676 15h3.647l4.376-3.5L12.324 8zm-2.178 1.647a.5.5 0 01.637-.058l.07.058 1.5 1.5a.5.5 0 01.057.637l-.058.07-1.5 1.5a.5.5 0 01-.637.057l-.07-.058-1.5-1.5a.5.5 0 01-.057-.637l.058-.07 1.5-1.5zm.352 1.06l-.792.793.792.793.793-.793-.793-.793z" />
+      </svg>
+      <span class="z-10 mr-1">Detail View</span>
+    </label>
+  </div>
+  <table class="absolute top-32 w-full h-full border-collapse">
+    <thead class="bg-white border border-gray-100">
+      <tr class="">
+        <th class="flex justify-between text-2xs font-semibold uppercase text-gray-400 border-r border-gray-100 bg-gray-50">
+          <td class="w-1/2 py-1 px-2 border-r border-gray-100">Fill</td>
+          <td class="w-1/2 py-1 px-2">Text</td>
         </th>
-        <th class="font-normal px-6 text-2xs text-gray-600 bg-gray-50" v-for="col in content.slice().reverse()" :key="col.contrast">
+        <th class="pr-8 pl-4 text-2xs font-semibold uppercase text-gray-400 bg-gray-50 border-r border-gray-100" v-for="col in content.slice().reverse()" :key="col.contrast">
           {{ col.color }}
         </th>
       </tr>
@@ -28,22 +26,24 @@
     <tbody>
       <tr v-for="bg in content" :key="bg"
         :style="{background: bg.background}">
-        <td class="h-16 p-2 text-2xs text-right text-gray-600 bg-gray-50 border-r border-gray-100">
+        <td class="pr-8 pl-4 text-2xs font-semibold text-right uppercase text-gray-400 bg-gray-50">
           {{ bg.background }}
         </td>
         <td v-for="text in content.slice().reverse()" :key="text"
-          class="relative text-3xs border-r border-b border-white"
+          class="relative p-1 text-3xs border-r border-b border-white"
           :style="{color: text.color}">
-          <div v-if="getContrast(text.color, bg.background).label"
-            :style="{color: bg.background, background: text.color}"
-            class="absolute top-0 right-0 m-1 py-px px-1 rounded">
-            {{ getContrast(text.color, bg.background).label }}
-          </div>
-          <div class="absolute top-0 left-0 m-1 py-px font-bold">
-            {{ getContrast(text.color, bg.background).contrast }}
+          <div class="flex justify-between">
+            <div class="py-px font-bold">
+              {{ getContrast(text.color, bg.background).contrast }}
+            </div>
+            <div v-if="getContrast(text.color, bg.background).label"
+              :style="{color: bg.background, background: text.color}"
+              class="py-px px-1 rounded">
+              {{ getContrast(text.color, bg.background).label }}
+            </div>
           </div>
           <div v-show="showDetails"
-            class="absolute bottom-0 flex flex-col m-1">
+            class="flex flex-col mt-1">
           <p>Aa: {{ text.color }}</p>
           <p>Bg: {{ bg.background }}</p>
           </div>
@@ -67,6 +67,7 @@ export default {
   },
   data() {
     return {
+      contrastUrl: 'https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html',
       showDetails: false,
     }
   },

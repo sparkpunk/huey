@@ -4,17 +4,17 @@
     <div class="relative w-full bg-white rounded-xl shadow-xl overflow-hidden"
       :style="{height: height}">
 
-      <div class="absolute top-0 left-0 right-0 flex items-center w-full h-16 px-4 border-b border-gray-100">
-        <h1 class="mr-16 mb-2 text-2xl font-semibold text-gray-900">{{ title }}</h1>
-        <div class="absolute top-0 right-0 w-16 h-16">
+      <div class="absolute top-0 left-0 right-0 flex items-center w-full h-24 p-8">
+        <h1 class="w-full text-3xl font-semibold text-center">{{ title }}</h1>
+        <div class="absolute top-0 right-0 w-16 h-16 mt-4 mr-4">
           <button @click="toggleModal"
-            class="flex items-center justify-center w-full h-full text-lg font-semibold text-gray-500">
+            class="flex items-center justify-center w-full h-full text-lg font-semibold">
             ✕
           </button>
         </div>
       </div>
 
-      <div class="absolute inset-0 top-16 overflow-auto">
+      <div class="absolute inset-0 top-24 overflow-auto">
         <code-blocks v-if="name === 'code'" :content="content"></code-blocks>
         <contrast-table v-if="name === 'contrast'" :content="content"></contrast-table>
       </div>

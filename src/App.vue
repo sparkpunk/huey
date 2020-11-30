@@ -11,7 +11,7 @@
     :name="modalName"
     :title="modalTitle"
     :content="modalData"
-    :height="windowHeight"></modal>
+    :height="windowHeight" />
 </template>
 
 <script>
@@ -36,8 +36,8 @@ export default {
     return {
       colors: colors,
       color: colors[1],
-      hues: hues,
-      tints: tints,
+      hues: 8,
+      tints: 10,
       scale: scale,
       palette: palette,
       contrast: contrast,
@@ -79,8 +79,6 @@ export default {
       var color = colors[1];
       this.colors = colors;
       this.color = color;
-      this.tints = randomNumber(4, 12);
-      this.hues = randomNumber(4, 12);
       this.updatePalette();
     },
     showContrast(hue, e) {
@@ -118,10 +116,6 @@ export default {
     }
   },
 };
-
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function randomColors() {
   var random = chroma.random();

@@ -5,7 +5,7 @@
       <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
         <code v-for="(color, c) in content" :key="c">
           <p v-for="(value, v) in color" :key="v">
-            --{{c.replace('_', '-')}}: {{ value }};
+            --{{c.replace('_', '-')}}-{{v}}: {{ value }};
           </p>
         </code>
       </div>
@@ -15,7 +15,7 @@
       <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
         <code v-for="(color, c) in content" :key="c">
           <p v-for="(value, v) in color" :key="v">
-            ${{c}}: {{ value }};
+            ${{c}}-{{v}}: {{ value }};
           </p>
         </code>
       </div>

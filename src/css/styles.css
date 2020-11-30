@@ -5,3 +5,12 @@
 .debug {
   border: 1px solid red !important;
 }
+
+h1, h2, h3,
+h4, h5, h6 {
+  @apply text-gray-800;
+}
+
+a {
+  @apply text-blue-600;
+}
