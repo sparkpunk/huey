@@ -7,7 +7,7 @@ import Modal from './Modal.vue';
 import Sidebar from './Sidebar.vue';
 import Workspace from './Workspace.vue';
 
-import CodeColumns from './components/CodeColumns.vue';
+import CodeBlocks from './components/CodeBlocks.vue';
 import ColorBox from './components/ColorBox.vue';
 import ColorInput from './components/ColorInput.vue';
 import ColorRadio from './components/ColorRadio.vue';
@@ -20,7 +20,7 @@ app.component('modal', Modal);
 app.component('sidebar', Sidebar);
 app.component('workspace', Workspace);
 
-app.component('code-columns', CodeColumns);
+app.component('code-blocks', CodeBlocks);
 app.component('color-box', ColorBox);
 app.component('color-input', ColorInput);
 app.component('color-radio', ColorRadio);

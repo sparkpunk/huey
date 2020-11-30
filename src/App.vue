@@ -38,7 +38,7 @@ export default {
       hues: hues,
       tints: tints,
       scale: scale,
-      palette: makePalette(colors[1], hues, tints, value),
+      palette: palette,
       contrast: contrast,
       showModal: false,
       modalData: null,
@@ -115,10 +115,6 @@ function randomColors() {
   return [ color_1, color_2, color_3 ];
 }
 
-var colors = randomColors();
-var contrast = null;
-var hues = 8;
-var tints = 10;
 var scale = [
   {
     name: "Default",
@@ -152,4 +148,9 @@ var scale = [
   },
 ];
 var { value } = scale.filter(i => i.checked == true)[0];
+var colors = randomColors();
+var contrast = null;
+var hues = 8;
+var tints = 10;
+var palette = makePalette(colors[1], hues, tints, value);
 </script>

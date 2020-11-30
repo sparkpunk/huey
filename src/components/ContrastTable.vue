@@ -58,7 +58,7 @@
 import chroma from 'chroma-js';
 
 export default {
-  name: "contrast-table",
+  name: 'contrast-table',
   props: {
     content: {
       type: Object,

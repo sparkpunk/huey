@@ -15,7 +15,7 @@
       </div>
 
       <div class="absolute inset-0 top-16 overflow-auto">
-        <code-coloumns v-if="name === 'code'" :content="content"></code-coloumns>
+        <code-blocks v-if="name === 'code'" :content="content"></code-blocks>
         <contrast-table v-if="name === 'contrast'" :content="content"></contrast-table>
       </div>
     </div>
@@ -27,13 +27,13 @@
 import chroma from 'chroma-js';
 
 // COMPONENTS
-import CodeColumns from './components/CodeColumns';
+import CodeBlocks from './components/CodeBlocks';
 import ContrastTable from './components/ContrastTable';
 
 export default {
   name: "modal",
   components: [
-    CodeColumns,
+    CodeBlocks,
     ContrastTable,
   ],
   inject: [ 'toggleModal' ],
