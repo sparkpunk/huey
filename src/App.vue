@@ -79,8 +79,8 @@ export default {
       var color = colors[1];
       this.colors = colors;
       this.color = color;
-      this.tints = randomNumber(12);
-      this.hues = randomNumber(12);
+      this.tints = randomNumber(4, 12);
+      this.hues = randomNumber(4, 12);
       this.updatePalette();
     },
     showContrast(hue, e) {
@@ -119,8 +119,8 @@ export default {
   },
 };
 
-function randomNumber(max) {
-  return Math.floor(Math.random() * Math.floor(max));
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function randomColors() {
