@@ -1,6 +1,7 @@
 <template>
   <div class="relative flex-shrink-0 flex flex-col mb-4">
-    <label class="flex justify-between mb-2 ml-px">
+    <label :for="name"
+      class="flex justify-between mb-2 ml-px">
       <span class="text-xs uppercase font-semibold">{{ label }}</span>
     </label>
     <select :id="name"
