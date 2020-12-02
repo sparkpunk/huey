@@ -15,8 +15,13 @@
       </div>
 
       <div class="absolute inset-0 top-24 overflow-auto">
-        <code-blocks v-if="name === 'code'" :content="content"></code-blocks>
-        <contrast-table v-if="name === 'contrast'" :color="color" :content="content"></contrast-table>
+        <code-blocks v-if="name === 'code'"
+          :content="content">
+        </code-blocks>
+        <contrast-table v-if="name === 'contrast'"
+          :color="color"
+          :content="content">
+        </contrast-table>
       </div>
     </div>
   </div>
