@@ -1,30 +1,32 @@
-<template>
-  <div class="fixed z-50 inset-0 flex flex-col items-center justify-center p-12">
-    <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
-    <div class="relative w-full bg-white rounded-xl shadow-xl overflow-hidden"
-      :style="{height: height}">
+  <template>
+  <dialog open>
+    <div class="fixed z-50 inset-0 flex flex-col items-center justify-center p-12">
+      <div class="absolute inset-0 bg-gray-900 opacity-70"></div>
+      <div class="relative w-full bg-white rounded-xl shadow-xl overflow-hidden"
+        :style="{height: height}">
 
-      <div class="absolute top-0 left-0 right-0 flex items-center w-full h-24 p-8">
-        <h1 class="w-full text-3xl font-semibold text-center">{{ title }}</h1>
-        <div class="absolute top-0 right-0 w-16 h-16 mt-4 mr-4">
-          <button @click="toggleModal"
-            class="flex items-center justify-center w-full h-full text-lg font-semibold">
-            ✕
-          </button>
+        <div class="absolute top-0 left-0 right-0 flex items-center w-full h-24 p-8">
+          <h1 class="w-full text-3xl font-semibold text-center">{{ title }}</h1>
+          <div class="absolute top-0 right-0 w-16 h-16 mt-4 mr-4">
+            <button @click="toggleModal"
+              class="flex items-center justify-center w-full h-full text-lg font-semibold">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <div class="absolute inset-0 top-24 overflow-auto">
+          <code-blocks v-if="name === 'code'"
+            :content="content">
+          </code-blocks>
+          <contrast-table v-if="name === 'contrast'"
+            :color="color"
+            :content="content">
+          </contrast-table>
         </div>
       </div>
-
-      <div class="absolute inset-0 top-24 overflow-auto">
-        <code-blocks v-if="name === 'code'"
-          :content="content">
-        </code-blocks>
-        <contrast-table v-if="name === 'contrast'"
-          :color="color"
-          :content="content">
-        </contrast-table>
-      </div>
     </div>
-  </div>
+  </dialog>
 </template>
 
 <script>
@@ -37,10 +39,10 @@ import ContrastTable from './components/ContrastTable';
 
 export default {
   name: "modal",
-  components: [
-    CodeBlocks,
-    ContrastTable,
-  ],
+  components: {
+    'code-blocks': CodeBlocks,
+    'contrast-table': ContrastTable,
+  },
   inject: [ 'toggleModal' ],
   props: {
     content: {

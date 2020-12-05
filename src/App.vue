@@ -43,6 +43,7 @@ export default {
       palette: palette,
       contrast: contrast,
       showModal: false,
+      modalContent: '',
       modalData: null,
       modalName: '',
       modalTitle: '',
