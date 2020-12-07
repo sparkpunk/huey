@@ -22,7 +22,7 @@
       <span class="z-10 mr-1">Detail View</span>
     </label>
   </div>
-  <div class="absolute top-32 right-4 bottom-4 left-4 rounded-lg overflow-auto debug">
+  <div class="absolute top-32 right-4 bottom-4 left-4 rounded-lg overflow-auto">
     <table class="w-full h-full">
       <thead class="h-8 text-gray-600 bg-gray-50">
         <tr class="sticky top-0 z-20 text-2xs font-semibold uppercase bg-gray-50">
