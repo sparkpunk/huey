@@ -1,6 +1,6 @@
 <template>
-  <div class="flex w-full p-8">
-    <div class="w-1/3 mr-2">
+  <div class="flex justify-center w-full p-8">
+    <div class="w-64 mr-8">
       <h3 class="mb-2 text-lg font-bold">PostCSS</h3>
       <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
         <code v-for="(color, c) in content" :key="c">
@@ -10,7 +10,7 @@
         </code>
       </div>
     </div>
-    <div class="w-1/3 mr-2">
+    <div class="w-64 mr-8">
       <h3 class="mb-2 text-lg font-bold">SCSS</h3>
       <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
         <code v-for="(color, c) in content" :key="c">
@@ -20,7 +20,7 @@
         </code>
       </div>
     </div>
-    <div class="w-1/3 mr-2">
+    <div class="w-64">
       <h3 class="mb-2 text-lg font-bold">Tailwind</h3>
       <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
         <code>

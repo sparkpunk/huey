@@ -126,8 +126,35 @@ module.exports = {
       }
     },
     extend: {
-      transitionDuration: {
-        "10000": "10000ms",
+      animation: {
+        'doppler-up': 'doppler-up 500ms ease-out',
+        'doppler-down': 'doppler-down 500ms ease-out',
+      },
+      keyframes: {
+        'doppler-up': {
+          '0%': {
+            'opacity': '0',
+          },
+          '50%': {
+            'opacity': '1',
+          },
+          '100%': {
+            'opacity': '0',
+            'transform': 'translateY(-1rem)',
+          },
+        },
+        'doppler-down': {
+          '0%': {
+            'opacity': '0',
+          },
+          '50%': {
+            'opacity': '1',
+          },
+          '100%': {
+            'opacity': '0',
+            'transform': 'translateY(1rem)',
+          },
+        },
       },
     },
     fontSize: {

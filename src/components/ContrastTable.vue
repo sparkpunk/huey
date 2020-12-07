@@ -1,7 +1,7 @@
 <template>
   <div class="absolute top-0 inset-x-0 overflow-hidden flex flex-col items-center mt-4 px-8">
     <p class="text-lg font-semibold text-center text-gray-400">Use this chart to quickly reference WCAG contrast ratios<sup>
-      <a class="text-2xs font-bold" :style="{color: content.slice(content.length / 2, content.length / 2 + 1)[0].color}" :href="contrastUrl">[1]</a>
+      <a class="text-2xs font-bold" :style="{color: content.slice(content.length / 2, content.length / 2 + 1)[0].color}" :href="contrastUrl" target="_blank">[1]</a>
       </sup> between two colors.</p>
     <label class="relative inline-flex items-center mt-4 py-2 px-4 text-xs font-semibold text-white cursor-pointer" for="showDetails">
       <input id="showDetails"

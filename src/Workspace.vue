@@ -7,8 +7,12 @@
         class="mb-6 last:pb-8">
           <div class="relative flex items-end mb-1">
             <p :style="{color: hue[1][Math.ceil(hue[1].length / 2)]}"
-              class="mr-2 mb-px text-xs capitalize tracking-wide">
+              @click="copyFamily(hue)"
+              class="mr-2 mb-px text-xs capitalize tracking-wide cursor-pointer">
               {{ hue[0].replace('_', ' ') }}
+              <span :style="{color: hue[1][Math.ceil(hue[1].length / 2)]}"
+                :class="{'animate-doppler-up': tooltip && family == hue[0]}"
+                class="absolute bottom-full flex items-center justify-center text-2xs font-semibold transition-all transform translate-y-4 opacity-0">Family copied!</span>
             </p>
             <button class="-mt-1 ml-auto py-px px-1 text-xs bg-transparent text-gray-500 rounded focus:ring-0"
               :style="{color: hue[1][Math.ceil(hue[1].length / 2)], border: '1px solid' + hue[1][0]}"
@@ -48,5 +52,33 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      tooltip: false,
+      family: '',
+    };
+  },
+  methods: {
+    copyFamily(hue) {
+      var family = this.getTitle(hue) + '\n';
+      Object.values(hue[1]).forEach(hex => {
+        family += hex + '\n';
+      })
+      navigator.clipboard.writeText(family);
+
+      this.tooltip = true;
+      this.family = hue[0];
+
+      setTimeout(() => {
+        this.tooltip = false;
+      }, 1000);
+    },
+    getTitle(hue) {
+      var title = hue[0];
+      title = title.replace('_', ' ');
+      title = title[0].toUpperCase() + title.substring(1);
+      return title;
+    },
+  }
 };
 </script>

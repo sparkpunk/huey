@@ -5,7 +5,7 @@
       <div class="relative w-full bg-white rounded-xl shadow-xl overflow-hidden"
         :style="{height: height}">
 
-        <div class="absolute top-0 left-0 right-0 flex items-center w-full h-24 p-8">
+        <div class="absolute top-0 left-0 right-0 flex items-center w-full h-24 p-8 border-b border-gray-50">
           <h1 class="w-full text-3xl font-semibold text-center">{{ title }}</h1>
           <div class="absolute top-0 right-0 w-16 h-16 mt-4 mr-4">
             <button @click="toggleModal"
