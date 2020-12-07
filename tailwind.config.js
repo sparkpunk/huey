@@ -127,15 +127,15 @@ module.exports = {
     },
     extend: {
       animation: {
-        'doppler-up': 'doppler-up 500ms ease-out',
-        'doppler-down': 'doppler-down 500ms ease-out',
+        'doppler-up': 'doppler-up 750ms ease-out',
+        'doppler-down': 'doppler-down 750ms ease-out',
       },
       keyframes: {
         'doppler-up': {
           '0%': {
             'opacity': '0',
           },
-          '50%': {
+          '66%': {
             'opacity': '1',
           },
           '100%': {
@@ -147,7 +147,7 @@ module.exports = {
           '0%': {
             'opacity': '0',
           },
-          '50%': {
+          '66%': {
             'opacity': '1',
           },
           '100%': {
