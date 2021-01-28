@@ -27,8 +27,8 @@
         </button>
       </div>
       <ColorInput name="color"
-        label="Anchor (hex)"
-        type="text"
+        label="Starting color"
+        type="color"
         :value="color" />
       <ColorInput name="hues"
         label="Hue Families"
@@ -49,8 +49,13 @@
         </span>
         ♥️
       </span>
-       by <a href="https://github.com/sparkpunk" rel="noreferrer">sparkpunk</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
-  </div>
+       by <a href="https://twitter.com/zakerving" target="_blank">zak</a> using <a href="https://vis4.net/chromajs/" rel="noreferrer">chromajs</a></div>
+    <div class="mt-4 text-xs font-semibold text-gray-400">
+      <a href="https://github.com/sparkpunk/huey/issues" target="_blank">
+        Submit feedback
+      </a>
+    </div>
+    </div>
 </template>
 
 <script>
