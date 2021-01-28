@@ -42,7 +42,7 @@
             {{ bg.background }}
           </td>
           <td v-for="text in content.slice().reverse()" :key="text"
-            class="relative p-1 text-3xs"
+            class="relative p-1 text-3xs border-r border-b border-dotted border-white border-opacity-50"
             :style="{color: text.color}">
             <div class="flex justify-between">
               <div class="py-px font-bold">
