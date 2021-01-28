@@ -77,7 +77,7 @@ export default {
       this.updatePalette();
     },
     rollTheDice() {
-      var colors = randomColors();
+      var colors = tinyScale();
       var color = colors[1];
       this.colors = colors;
       this.color = color;
@@ -98,6 +98,7 @@ export default {
       var checked = scale.filter(i => i.checked == true)[0];
       var { value } = checked;
       this.palette = makePalette(color, hues, tints, value);
+      this.colors = tinyScale(color);
     },
     updateScale(value) {
       return this.scale.forEach(i => i.checked = i.value === value ? true : false);
@@ -119,11 +120,13 @@ export default {
   },
 };
 
-function randomColors() {
-  var random = chroma.random();
-  var color_1 = chroma(random).set('hsl.l', 0.9).hex()
-  var color_2 = chroma(random).set('hsl.l', 0.6).hex()
-  var color_3 = chroma(random).set('hsl.l', 0.3).hex()
+function tinyScale(color) {
+  if(color == undefined) {
+    color = chroma.random();
+  }
+  var color_1 = chroma(color).set('hsl.l', 0.9).hex()
+  var color_2 = chroma(color).set('hsl.l', 0.6).hex()
+  var color_3 = chroma(color).set('hsl.l', 0.3).hex()
   return [ color_1, color_2, color_3 ];
 }
 
@@ -160,7 +163,7 @@ var scale = [
   },
 ];
 var { value } = scale.filter(i => i.checked == true)[0];
-var colors = randomColors();
+var colors = tinyScale();
 var contrast = null;
 var hues = 8;
 var tints = 10;
