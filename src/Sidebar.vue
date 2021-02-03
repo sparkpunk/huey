@@ -49,9 +49,9 @@
         </span>
         ♥️
       </span>
-       by <a href="https://twitter.com/zakerving" target="_blank">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank">chromajs</a></div>
+       by <a href="https://twitter.com/zakerving" target="_blank" rel="noreferrer">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank" rel="noreferrer">chromajs</a></div>
     <div class="mt-4 text-xs font-semibold text-gray-400">
-      <a href="https://github.com/sparkpunk/huey/issues" target="_blank">
+      <a href="https://github.com/sparkpunk/huey/issues" target="_blank" rel="noreferrer">
         Submit feedback
       </a>
     </div>
