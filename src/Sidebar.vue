@@ -39,8 +39,11 @@
         type="number"
         :value="tints" />
       <ColorSelect name="scale"
-        label="Smoothing"
+        label="Scaling Mode"
         :options="scale" />
+      <ColorSelect name="colorblind"
+        label="Color Blindness ᵇᵉᵗᵃ"
+        :options="colorblind" />
     </form>
     <div class="group mt-auto text-xs text-gray-400">Made with 
       <span class="relative group-hover:text-red-400">
@@ -49,7 +52,7 @@
         </span>
         ♥️
       </span>
-       by <a href="https://twitter.com/zakerving" target="_blank" rel="noreferrer">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank" rel="noreferrer">chromajs</a></div>
+       by <a href="https://twitter.com/zakerving" target="_blank" rel="noreferrer">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank" rel="noreferrer">chromajs</a> and <a href="https://www.npmjs.com/package/@hexorialstudio/color-blinder" target="_blank" rel="noreferrer">color-blinder</a></div>
     <div class="mt-4 text-xs font-semibold text-gray-400">
       <a href="https://github.com/sparkpunk/huey/issues" target="_blank" rel="noreferrer">
         Submit feedback
@@ -73,24 +76,28 @@ export default {
     ColorSelect,
   },
   props: {
-   colors: {
+    color: {
+      type: String,
+      required: true,
+    },
+    colorblind: {
       type: Object,
       required: true,
     },
-    color: {
-      type: String,
+    colors: {
+      type: Object,
       required: true,
     },
     hues: {
       type: Number,
       required: true,
     },
-    tints: {
-      type: Number,
-      required: true,
-    },
     scale: {
       type: Object,
+      required: true,
+    },
+    tints: {
+      type: Number,
       required: true,
     },
   },

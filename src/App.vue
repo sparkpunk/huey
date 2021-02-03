@@ -3,7 +3,8 @@
     :hues="hues"
     :tints="tints"
     :scale="scale"
-    :colors="colors" />
+    :colors="colors"
+    :colorblind="colorblind" />
   <workspace :color="color"
     :palette="palette"
     :showModal="showModal" />
@@ -18,6 +19,7 @@
 <script>
 // MODULES
 import chroma from 'chroma-js';
+import blinder from '@hexorialstudio/color-blinder';
 // COMPONENTS
 import Modal from './Modal';
 import Sidebar from './Sidebar';
@@ -35,12 +37,15 @@ export default {
   ],
   data() {
     return {
-      colors: colors,
       color: colors[1],
+      colorblind: colorblind,
+      colors: colors,
       hues: 8,
       tints: 10,
       scale: scale,
       palette: palette,
+      palette_colors: palette,
+      palette_colorblind: palette,
       contrast: contrast,
       showModal: false,
       modalContent: '',
@@ -72,8 +77,8 @@ export default {
       this.updatePalette();
     },
     handleSelect(e) {
-      var { value } = e.target;
-      this.updateScale(value);
+      var { id, value } = e.target;
+      this.updateScale(id, value);
       this.updatePalette();
     },
     rollTheDice() {
@@ -94,14 +99,37 @@ export default {
       return this.showModal = !this.showModal;
     },
     updatePalette() {
-      var { color, hues, tints, scale } = this;
-      var checked = scale.filter(i => i.checked == true)[0];
-      var { value } = checked;
-      this.palette = makePalette(color, hues, tints, value);
+      var { color, hues, tints, scale, colorblind } = this;
+
+      var scale_mode = scale.filter(i => i.checked == true)[0];
+      var scale_value = scale_mode.value;
+
+      var blind_mode = colorblind.filter(i => i.checked == true)[0];
+      var blind_value = blind_mode.value;
+
+      this.palette_colors = makePalette(color, hues, tints, scale_value);
+
+      if(blind_value != "None") {
+        this.palette_colorblind = this.updateColorBlindness(blind_value);
+        this.palette = this.palette_colorblind;
+      } else {
+        this.palette = this.palette_colors;
+      }
+      console.log(blinder)
       this.colors = tinyScale(color);
     },
-    updateScale(value) {
-      return this.scale.forEach(i => i.checked = i.value === value ? true : false);
+    updateColorBlindness(blind_value) {
+      var obj = {}
+      Object.entries(this.palette_colors).forEach(family => {
+        obj[family[0]] = []
+        family[1].forEach(color => {
+          obj[family[0]].push(blinder.[blind_value](color))
+        });
+      });
+      return obj;
+    },
+    updateScale(id, value) {
+      return this[id].forEach(i => i.checked = i.value === value ? true : false);
     },
   },
   computed: {
@@ -130,11 +158,59 @@ function tinyScale(color) {
   return [ color_1, color_2, color_3 ];
 }
 
+var colorblind = [
+  {
+    name: "None",
+    value: "None",
+    checked: true,
+  },
+  {
+    name: "Low red (protanomaly)",
+    value: 'protanomaly',
+    checked: false,
+  },
+  {
+    name: "No red (protanopia)",
+    value: 'protanopia',
+    checked: false,
+  },
+  {
+    name: "Low green (deuteranomaly)",
+    value: 'deuteranomaly',
+    checked: false,
+  },
+  {
+    name: "No green (deuteranopia)",
+    value: 'deuteranopia',
+    checked: false,
+  },
+  {
+    name: "Low blue (tritanomaly)",
+    value: 'tritanomaly',
+    checked: false,
+  },
+  {
+    name: "No blue (tritanopia)",
+    value: 'tritanopia',
+    checked: false,
+  },
+  {
+    name: "Low color (achromatomaly)",
+    value: 'achromatomaly',
+    checked: false,
+  },
+  {
+    name: "No color (achromatopsia)",
+    value: 'achromatopsia',
+    checked: false,
+  },
+]
+
 var scale = [
   {
     name: "Default",
     value: 'lrgb',
-    checked: false,
+    checked: true,
   },
   {
     name: "Intensity",
@@ -149,7 +225,7 @@ var scale = [
   {
     name: "Luminance",
     value: 'hcl',
-    checked: true,
+    checked: false,
   },
   {
     name: "Lightness",
