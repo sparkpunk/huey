@@ -28,5 +28,21 @@
 </head>
 <body>
   <div id="app"></div>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      var { elements } = document.getElementById("palette-inputs");
+      function emitEvent() {
+        alpinaWebAnalytics.emit('PaletteCreated');
+        console.log("Palette created");
+      }
+      elements.forEach(element => {
+        if(element.textContent == "Randomize") {
+          element.addEventListener("click", emitEvent);
+        } else {
+          element.addEventListener("change", emitEvent);
+        }
+      })
+    });
+  </script>
 </body>
 </html>

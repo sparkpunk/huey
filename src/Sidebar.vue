@@ -1,6 +1,6 @@
 <template>
   <div class="fixed inset-y-0 left-0 flex flex-col w-56 h-screen overflow-y-scroll p-8 text-gray-800 border-r border-gray-100">
-    <form @submit.prevent="">
+    <form @submit.prevent="" id="palette-inputs">
       <div class="mb-4">
         <div class="flex">
           <color-box v-for="color in colors"
