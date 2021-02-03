@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-y-0 left-0 flex flex-col w-56 h-screen overflow-y-scroll p-8 text-gray-800 border-r border-gray-100">
+  <div class="fixed inset-y-0 left-0 flex flex-col w-56 h-screen overflow-y-auto p-8 text-gray-800 border-r border-gray-100">
     <form @submit.prevent="" id="palette-inputs">
       <div class="mb-4">
         <div class="flex">
@@ -9,7 +9,7 @@
             class="w-4 h-4 mr-2 last:mr-0" />
         </div>
         <h1 class="my-4 font-display text-5xl text-gray-800">huey</h1>
-        <p class="">Light to dark palettes, <br /> across the rainbow.</p>
+        <p class="">Rapid color palettes <br /> across the rainbow.</p>
         <button type="button" @click="rollTheDice"
         :style="{background: color}"
         class="group flex items-center justify-center w-full mt-4 py-2 px-4 text-xs font-bold text-white rounded-xl transition-shadow duration-200 hover:shadow focus:ring-0 focus:outline-none">
@@ -52,7 +52,13 @@
         </span>
         ♥️
       </span>
-       by <a href="https://twitter.com/zakerving" target="_blank" rel="noreferrer">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank" rel="noreferrer">chromajs</a> and <a href="https://www.npmjs.com/package/@hexorialstudio/color-blinder" target="_blank" rel="noreferrer">color-blinder</a></div>
+       by <a href="https://twitter.com/zakerving" target="_blank" rel="noreferrer">zak</a> using <a href="https://vis4.net/chromajs/" target="_blank" rel="noreferrer">chromajs</a> and <a href="https://www.npmjs.com/package/@hexorialstudio/color-blinder" target="_blank" rel="noreferrer">color-blinder</a>.
+       <br/>
+       Inspired by 
+      <a href="https://learnui.design/blog/color-in-ui-design-a-practical-framework.html" target="_blank" rel="noreferrer">
+        @erikdkennedy
+      </a>
+    </div>
     <div class="mt-4 text-xs font-semibold text-gray-400">
       <a href="https://github.com/sparkpunk/huey/issues" target="_blank" rel="noreferrer">
         Submit feedback
