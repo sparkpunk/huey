@@ -115,7 +115,6 @@ export default {
       } else {
         this.palette = this.palette_colors;
       }
-      console.log(blinder)
       this.colors = tinyScale(color);
     },
     updateColorBlindness(blind_value) {
