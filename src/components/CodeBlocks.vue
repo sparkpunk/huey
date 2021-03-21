@@ -2,33 +2,39 @@
   <div class="flex justify-center w-full p-8">
     <div class="w-64 mr-8">
       <h3 class="mb-2 text-lg font-bold">PostCSS</h3>
-      <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
+      <div
+        class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded"
+      >
         <code v-for="(color, c) in content" :key="c">
           <p v-for="(value, v) in color" :key="v">
-            --{{c.replace('_', '-')}}-{{v}}: {{ value }};
+            --{{ c.replace("_", "-") }}-{{ v }}: {{ value }};
           </p>
         </code>
       </div>
     </div>
     <div class="w-64 mr-8">
       <h3 class="mb-2 text-lg font-bold">SCSS</h3>
-      <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
+      <div
+        class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded"
+      >
         <code v-for="(color, c) in content" :key="c">
           <p v-for="(value, v) in color" :key="v">
-            ${{c}}-{{v}}: {{ value }};
+            ${{ c }}-{{ v }}: {{ value }};
           </p>
         </code>
       </div>
     </div>
     <div class="w-64">
       <h3 class="mb-2 text-lg font-bold">Tailwind</h3>
-      <div class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded">
+      <div
+        class="p-4 text-xs text-gray-800 bg-gray-50 border border-gray-200 rounded"
+      >
         <code>
           {
           <div v-for="(color, c) in content" :key="c">
-            &nbsp;&nbsp;'{{ c }}': {
+            &nbsp;&nbsp;"{{ c }}": {
             <p v-for="(value, v) in color" :key="v">
-              &nbsp;&nbsp;&nbsp;&nbsp;{{ getIndex(v) }}: {{ value }},
+              &nbsp;&nbsp;&nbsp;&nbsp;{{ getIndex(v) }}: "{{ value }}",
             </p>
             &nbsp;&nbsp;},
           </div>
@@ -41,7 +47,7 @@
 
 <script>
 export default {
-  name: 'code-blocks',
+  name: "code-blocks",
   props: {
     content: {
       type: Object,
@@ -49,14 +55,12 @@ export default {
     },
   },
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     getIndex(num) {
-      return num === 0 ? '50' : num * 100;
-    }
-  }
-}
+      return num === 0 ? "50" : num * 100;
+    },
+  },
+};
 </script>
